@@ -1,0 +1,31 @@
+--- sflphone-1.3.0/daemon/globals.mak.orig	2014-01-20 22:28:19.458469880 -0500
++++ sflphone-1.3.0/daemon/globals.mak	2014-01-20 22:30:03.948466820 -0500
+@@ -7,18 +7,11 @@
+ 
+ ASTYLERC="$(top_srcdir)/../astylerc"
+ indent="/usr/bin/astyle"
+-PJPROJECT_DIR=pjproject-2.1.0
+ 
+ # for pjsip
+-include $(src)/libs/$(PJPROJECT_DIR)/build.mak
+-PJSIP_LIBS=$(APP_LDFLAGS) $(APP_LDLIBS)
++PJSIP_LIBS=$(shell pkg-config --libs libpjproject)
+ 
+-SIP_CFLAGS=-I$(src)/libs/$(PJPROJECT_DIR)/pjsip/include \
+-		   -I$(src)/libs/$(PJPROJECT_DIR)/pjlib/include \
+-		   -I$(src)/libs/$(PJPROJECT_DIR)/pjlib-util/include \
+-		   -I$(src)/libs/$(PJPROJECT_DIR)/pjmedia/include \
+-		   -I$(src)/libs/$(PJPROJECT_DIR)/pjnath/include \
+-		   -DPJ_AUTOCONF=1
++SIP_CFLAGS=$(shell pkg-config --cflags libpjproject)
+ 
+ if BUILD_SPEEX
+ SPEEXCODEC=-DHAVE_SPEEX_CODEC
+@@ -42,7 +35,6 @@
+ AM_CPPFLAGS = \
+ 	-I$(src)/libs \
+ 	-I$(src)/libs/iax2 \
+-	-I$(src)/libs/$(PJPROJECT_DIR) \
+ 	-I$(src)/src \
+ 	-I$(src)/src/config \
+ 	-I$(src)/test \
