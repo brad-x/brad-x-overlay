@@ -3,7 +3,7 @@ CXXFLAGS="-O2 -pipe"
 CHOST="x86_64-pc-linux-gnu"
 MAKEOPTS="-j8"
 ACCEPT_KEYWORDS="~amd64"
-VIDEO_CARDS="intel radeon radeonsi nouveau"
+VIDEO_CARDS="-* intel radeon radeonsi nouveau"
 
 EMERGE_DEFAULT_OPTS="--quiet-build=n -b"
 
