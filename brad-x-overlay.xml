@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layman>
+<overlay contact="brad@brad-x.com" name="brad-x-overlay" src="git://github.com/brad-x/brad-x-overlay.git" status="unofficial" type="git">
+<link>https://github.com/brad-x/brad-x-overlay/</link>
+<description>Brad-X Layman overlay</description>
+</overlay>
+</layman>
