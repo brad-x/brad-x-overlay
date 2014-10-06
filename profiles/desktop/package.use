@@ -1,7 +1,7 @@
 # GNOME
 gnome-base/gnome -extras
 app-misc/tracker -ffmpeg
->=media-libs/libmediaart-0.1:1.0 -qt4
+>=media-libs/libmediaart-0.1 -qt4
 
 # No graphics in command line tools
 sys-boot/grub -truetype
