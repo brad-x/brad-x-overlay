@@ -1,0 +1,27 @@
+>sys-boot/syslinux-4
+
+=dev-util/mdds-0.9.0
+=dev-util/mdds-0.9.1
+
+=app-admin/keepassx-2.0_alpha5
+
+=media-libs/libopenraw-0.1.0_pre20130826
+
+# =media-libs/mesa-9.2.4
+# =media-libs/mesa-9.2.5
+=x11-base/xorg-server-1.14.99.904-r1
+=x11-base/xorg-server-1.14.99.904
+=x11-base/xorg-server-1.14.99.904-r1
+=x11-base/xorg-server-1.14.99.904
+=x11-base/xorg-server-1.15.0
+=x11-base/xorg-server-1.15.99.903
+# =app-emulation/libvirt-1.2.0
+
+# Library choices when there are multiple
+media-video/libav
+#net-libs/farstream
+=x11-drivers/nvidia-drivers-340.46
+
+=net-misc/dhcpcd-6.4.4
+
+

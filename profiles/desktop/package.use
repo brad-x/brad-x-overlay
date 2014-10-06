@@ -1,0 +1,88 @@
+# GNOME
+gnome-base/gnome -extras
+app-misc/tracker -ffmpeg
+>=media-libs/libmediaart-0.1:1.0 -qt4
+
+# No graphics in command line tools
+sys-boot/grub -truetype
+net-analyzer/nmap -gtk
+sys-process/psmisc -X
+net-misc/unison -gtk
+sys-devel/gcc -gtk
+
+# No browser plugins
+media-video/vlc httpd lua qt4 -nsplugin
+app-emulation/virt-viewer -nsplugin
+app-text/acroread -nsplugin
+app-office/libreoffice-bin java -nsplugin
+app-office/libreoffice java -nsplugin
+
+# Nothing seems to like gnutls
+net-misc/curl -gnutls 
+net-misc/networkmanager -gnutls -dhclient
+net-nds/openldap -gnutls
+
+# Flash for 64bit and 32bit browsers
+www-plugins/adobe-flash 32bit 64bit 
+
+# No Enigmail in Thunderbird
+mail-client/thunderbird -crypt
+
+# genkernel configurations
+sys-fs/mdadm static
+sys-kernel/genkernel -crypt cryptsetup
+sys-kernel/genkernel-next -crypt cryptsetup
+sys-fs/cryptsetup -gcrypt
+
+# Misc
+media-libs/avidemux-plugins qt4
+media-video/avidemux qt4
+net-p2p/transmission -gtk qt4
+net-analyzer/wireshark -gtk3 -gtk2 qt4
+www-client/xombrero examples
+app-emulation/libvirt virt-network -nfs -iscsi
+x11-drivers/ati-drivers qt4
+app-emulation/virtualbox qt4 vnc
+media-video/mplayer mpg123
+media-video/mjpegtools sdl
+sys-libs/zlib minizip
+media-sound/audacious -gtk gtk3
+media-sound/rhythmbox python_targets_python3_3 python_single_target_python3_3
+media-plugins/audacious-plugins -gtk gtk3
+media-video/mkvtoolnix wxwidgets
+sci-astronomy/celestia -gnome
+net-libs/webkit-gtk gstreamer -gles2 
+# -gles2 -webgl opengl -egl
+net-irc/hexchat plugin-checksum plugin-doat plugin-fishlim plugin-sysinfo
+net-misc/spice-gtk -gstreamer
+media-video/handbrake -ffmpeg
+sys-auth/polkit -pam
+net-misc/remmina freerdp
+x11-misc/x11vnc system-libvncserver
+net-libs/farsight2 -python
+# Apache and PHP can't be threaded
+www-servers/apache -threads
+dev-lang/php -threads
+
+# Disable BIND DLZ for now
+net-dns/bind -berkdb -mysql -odbc -ldap
+
+# For RetroShare
+net-libs/libssh server
+dev-qt/qt-mobility multimedia
+net-p2p/retroshare links-cloud voip qt4
+
+# required by kdenlive
+kde-base/kdelibs semantic-desktop
+media-libs/mlt qt4 melt kdenlive
+app-text/poppler qt4
+dev-libs/libattica qt4
+media-video/kdenlive qt4 melt kdenlive semantic-desktop
+
+# required by Kontact
+app-office/akonadi-server qt4 -mysql
+kde-base/kdepimlibs semantic-desktop
+media-libs/phonon qt4 -qt5
+media-libs/phonon-gstreamer qt4
+
+dev-cpp/commoncpp2 -gnutls
