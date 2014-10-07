@@ -1,0 +1,12 @@
+>sys-boot/syslinux-4
+
+=dev-util/mdds-0.9.0
+
+=x11-drivers/nvidia-drivers-325.08
+
+=app-emulation/libvirt-1.1.1-r2
+
+=dev-libs/icu-51.2
+
+# OpenStack
+#>=dev-python/routes-2.0
