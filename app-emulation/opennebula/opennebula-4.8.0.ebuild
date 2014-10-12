@@ -24,10 +24,7 @@ RDEPEND=">=dev-libs/xmlrpc-c-1.18.02[abyss,cxx,threads]
 	dev-db/sqlite
 	net-misc/openssh
 	qemu? ( app-emulation/libvirt[libvirtd,qemu] )
-	xen? ( app-emulation/xen-tools )"
-DEPEND="${RDEPEND}
-	>=dev-util/scons-1.2.0-r1
-	dev-ruby/nokogiri
+	xen? ( app-emulation/xen-tools )
 	dev-ruby/sequel
 	dev-ruby/json
 	dev-ruby/sinatra
@@ -46,6 +43,10 @@ DEPEND="${RDEPEND}
 	dev-ruby/parse-cron
 	dev-ruby/aws-sdk
 	dev-ruby/ox"
+
+DEPEND="${RDEPEND}
+	>=dev-util/scons-1.2.0-r1
+	dev-ruby/nokogiri"
 
 # make sure no eclass is running tests
 RESTRICT="test"
