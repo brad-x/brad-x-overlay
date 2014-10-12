@@ -1,0 +1,10 @@
+dev-ruby/multi_json
+dev-ruby/rest-client
+dev-ruby/simplecov
+dev-ruby/term-ansicolor
+dev-ruby/thor
+
+dev-ruby/rake
+dev-ruby/rspec
+dev-ruby/vcr
+dev-ruby/webmock

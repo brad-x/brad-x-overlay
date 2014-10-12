@@ -1,2 +1,3 @@
 amd64           desktop				stable
 amd64           server				stable
+amd64           server-stable			stable
