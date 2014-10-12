@@ -25,5 +25,8 @@ ruby_add_bdepend "test? ( dev-ruby/rspec )"
 all_ruby_install() {
 	all_fakegem_install
 	rm "${D}/usr/bin/rake"
+	rm "${D}/usr/bin/yard"
+	rm "${D}/usr/bin/yardoc"
+	rm "${D}/usr/bin/yri"
 }
 

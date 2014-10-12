@@ -59,3 +59,5 @@ PHP_INI_VERSION="production"
 #   euses and ufed - bug #478318
 PORTDIR="/usr/portage"
 
+PORTAGE_BINHOST=http://packages.brad-x.com/server-x86_64-stable/
+

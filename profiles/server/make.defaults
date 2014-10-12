@@ -52,3 +52,5 @@ NGINX_MODULES_HTTP="access auth_basic autoindex browser charset empty_gif fastcg
 RUBY_TARGETS="ruby18 ruby19 ruby20"
 
 PHP_INI_VERSION="production"
+
+PORTAGE_BINHOST=http://packages.brad-x.com/server-x86_64/
