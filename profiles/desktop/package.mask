@@ -19,7 +19,7 @@
 
 # Library choices when there are multiple
 media-video/libav
-#net-libs/farstream
+net-libs/farsight2
 =x11-drivers/nvidia-drivers-340.46
 
 =net-misc/dhcpcd-6.4.4
