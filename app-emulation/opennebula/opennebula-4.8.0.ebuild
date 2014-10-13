@@ -42,11 +42,13 @@ RDEPEND=">=dev-libs/xmlrpc-c-1.18.02[abyss,cxx,threads]
 	dev-ruby/treetop
 	dev-ruby/parse-cron
 	dev-ruby/aws-sdk
-	dev-ruby/ox"
+	dev-ruby/ox
+	dev-ruby/nokogiri
+	app-cdr/cdrkit"
+
 
 DEPEND="${RDEPEND}
-	>=dev-util/scons-1.2.0-r1
-	dev-ruby/nokogiri"
+	>=dev-util/scons-1.2.0-r1"
 
 # make sure no eclass is running tests
 RESTRICT="test"
