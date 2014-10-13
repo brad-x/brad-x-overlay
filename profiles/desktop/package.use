@@ -86,3 +86,7 @@ media-libs/phonon qt4 -qt5
 media-libs/phonon-gstreamer qt4
 
 dev-cpp/commoncpp2 -gnutls
+
+# required by www-plugins/pipelight-0.2.7.3
+app-emulation/wine pipelight
+dev-libs/elfutils static-libs
