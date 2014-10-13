@@ -9,4 +9,4 @@
 =dev-libs/icu-51.2
 
 # OpenStack
-#>=dev-python/routes-2.0
+>=dev-python/routes-2.0
