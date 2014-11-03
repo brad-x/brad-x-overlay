@@ -83,6 +83,9 @@ kde-base/kdepimlibs semantic-desktop
 
 net-analyzer/rrdtool graph
 net-analyzer/cacti -vhosts
+net-dns/dnsmasq dhcp-tools 
+net-misc/openvswitch -modules
+sys-cluster/neutron mysql metadata server openvswitch l3 linuxbridge dhcp
 
 # OpenNebula
 
