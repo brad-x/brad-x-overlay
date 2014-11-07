@@ -92,3 +92,6 @@ app-emulation/wine pipelight
 dev-libs/elfutils static-libs
 
 net-im/pidgin -eds
+
+# Needed by Firefox 33.0
+media-libs/libvpx postproc
