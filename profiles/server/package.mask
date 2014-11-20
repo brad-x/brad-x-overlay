@@ -4,5 +4,12 @@
 
 # OpenStack
 >=dev-python/routes-2.0
-=dev-python/sqlalchemy-migrate-0.9.2
 sys-block/iscsitarget
+=dev-python/sqlalchemy-migrate-0.9.2
+
+# Block until the rest is stable
+=sys-auth/keystone-2014.2
+=sys-cluster/nova-2014.2
+=app-admin/glance-2014.2
+=sys-cluster/cinder-2014.2
+=sys-cluster/neutron-2014.2

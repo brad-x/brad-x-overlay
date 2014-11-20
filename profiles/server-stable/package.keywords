@@ -8,3 +8,4 @@ dev-php/pecl-apc amd64
 >=virtual/mysql-5.5 amd64
 www-apps/wordpress amd64
 sys-block/tgt amd64
+net-analyzer/icinga2 amd64
