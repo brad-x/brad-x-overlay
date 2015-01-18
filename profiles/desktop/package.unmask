@@ -1,3 +1,4 @@
 >=net-libs/libotr-4.0.0
 >=x11-plugins/pidgin-otr-4.0.0
 kde-misc/kgtk
+=media-libs/libmediaart-0.7.0
