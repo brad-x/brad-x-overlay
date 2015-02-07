@@ -2,6 +2,7 @@
 gnome-base/gnome -extras
 app-misc/tracker -ffmpeg
 >=media-libs/libmediaart-0.1 -qt4
+media-libs/clutter egl 
 
 # No graphics in command line tools
 sys-boot/grub -truetype
