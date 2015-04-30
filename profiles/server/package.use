@@ -1,3 +1,5 @@
+sys-apps/portage git
+
 # No GNOME Extra Apps
 gnome-base/gnome -extras
 
@@ -90,3 +92,5 @@ sys-cluster/neutron mysql metadata server openvswitch l3 linuxbridge dhcp
 # OpenNebula
 
 dev-libs/xmlrpc-c abyss
+
+net-fs/samba bi_heimdal ads aio client

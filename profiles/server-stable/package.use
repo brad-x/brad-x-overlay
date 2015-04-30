@@ -1,3 +1,5 @@
+sys-apps/portage git
+
 # No GNOME Extra Apps
 gnome-base/gnome -extras
 
