@@ -93,4 +93,4 @@ sys-cluster/neutron mysql metadata server openvswitch l3 linuxbridge dhcp
 
 dev-libs/xmlrpc-c abyss
 
-net-fs/samba bi_heimdal ads aio client
+net-fs/samba bi_heimdal ads client

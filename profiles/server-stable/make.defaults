@@ -32,7 +32,9 @@ USE="${NO_USE} ${USE_BASE} ${SERVER_USE}"
 EMERGE_DEFAULT_OPTS="--quiet-build=n -b"
 
 ACCEPT_LICENSE="PUEL skype-eula dlj-1.1 google-talkplugin Oracle-BCLA-JavaSE google-chrome ut2003 AdobeFlash-11.x skype-4.0.0.7-copyright googleearth TeamViewer"
-MAKEOPTS="-j1"
+
+MAKEOPTS="-j6"
+
 ACCEPT_KEYWORDS="amd64"
 VIDEO_CARDS="intel radeon nouveau"
 # PORTDIR_OVERLAY="/usr/local/portage"

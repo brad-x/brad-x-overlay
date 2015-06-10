@@ -73,3 +73,5 @@ media-video/kdenlive qt4 melt kdenlive semantic-desktop
 # required by Kontact
 app-office/akonadi-server qt4 -mysql
 kde-base/kdepimlibs semantic-desktop
+
+net-fs/samba bi_heimdal ads client
