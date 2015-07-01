@@ -1,12 +1,12 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-fs/samba/samba-4.1.17.ebuild,v 1.2 2015/03/03 09:24:11 dlan Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-fs/samba/samba-4.1.19.ebuild,v 1.2 2015/06/28 03:34:52 patrick Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE='threads(+)'
 
-inherit python-single-r1 waf-utils multilib linux-info systemd
+inherit python-single-r1 waf-utils multilib linux-info systemd base
 
 MY_PV="${PV/_rc/rc}"
 MY_P="${PN}-${MY_PV}"
@@ -20,13 +20,12 @@ LICENSE="GPL-3"
 
 SLOT="0"
 
-IUSE="acl addns ads aio avahi bi_heimdal client cluster cups dmapi fam gnutls iprint
+IUSE="acl addns ads aio avahi client cluster cups dmapi fam gnutls iprint
 ldap quota selinux syslog systemd test winbind"
 
 # sys-apps/attr is an automagic dependency (see bug #489748)
 # sys-libs/pam is an automagic dependency (see bug #489770)
 CDEPEND="${PYTHON_DEPS}
-	!bi_heimdal? ( >=app-crypt/heimdal-1.5[-ssl] )
 	dev-libs/iniparser
 	dev-libs/popt
 	sys-libs/readline:=
@@ -37,13 +36,12 @@ CDEPEND="${PYTHON_DEPS}
 	>=sys-libs/ntdb-1.0[python,${PYTHON_USEDEP}]
 	>=sys-libs/ldb-1.1.17
 	>=sys-libs/tdb-1.2.12[python,${PYTHON_USEDEP}]
-	>=sys-libs/talloc-2.0.8[python,${PYTHON_USEDEP}]
+	>=sys-libs/talloc-2.1.2[python,${PYTHON_USEDEP}]
 	>=sys-libs/tevent-0.9.18
 	sys-libs/zlib
 	virtual/pam
 	acl? ( virtual/acl )
 	addns? ( net-dns/bind-tools[gssapi] )
-	bi_heimdal? ( !>=app-crypt/heimdal-1.5[-ssl] )
 	aio? ( dev-libs/libaio )
 	cluster? ( >=dev-db/ctdb-1.0.114_p1 )
 	cups? ( net-print/cups )
@@ -98,7 +96,6 @@ src_configure() {
 	local myconf=''
 	use "cluster" && myconf+=" --with-ctdb-dir=/usr"
 	use "test" && myconf+=" --enable-selftest"
-	use "bi_heimdal" && myconf+=" --bundled-libraries=heimdal"
 	myconf="${myconf} \
 		--enable-fhs \
 		--sysconfdir=/etc \
@@ -110,7 +107,7 @@ src_configure() {
 		--disable-rpath-install \
 		--nopyc \
 		--nopyo \
-		--bundled-libraries=NONE \
+		--bundled-libraries=heimdal \
 		--builtin-libraries=NONE \
 		$(use_with addns dnsupdate) \
 		$(use_with acl acl-support) \
@@ -133,7 +130,7 @@ src_configure() {
 		"
 	use "ads" && myconf+=" --with-shared-modules=idmap_ad"
 
-	CPPFLAGS="-I/usr/include/et ${CPPFLAGS}" \
+	CPPFLAGS="-I${SYSROOT}/usr/include/et ${CPPFLAGS}" \
 		waf-utils_src_configure ${myconf}
 }
 
