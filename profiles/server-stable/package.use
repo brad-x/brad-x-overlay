@@ -75,3 +75,5 @@ app-office/akonadi-server qt4 -mysql
 kde-base/kdepimlibs semantic-desktop
 
 net-fs/samba bi_heimdal ads client
+
+>=dev-db/mysql-5.6.26-r1 client-libs
