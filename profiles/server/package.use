@@ -93,4 +93,4 @@ sys-cluster/neutron mysql metadata server openvswitch l3 linuxbridge dhcp
 
 dev-libs/xmlrpc-c abyss
 
-net-fs/samba bi_heimdal ads client
+app-portage/layman python_targets_python2_7 python_targets_python3_3 python_targets_python3_4
