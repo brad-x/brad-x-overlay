@@ -54,8 +54,8 @@ RUBY_TARGETS="ruby18 ruby19 ruby20"
 
 PHP_INI_VERSION="production"
 
-PYTHON_TARGETS="python2_7 python3_3"
+PYTHON_TARGETS="python2_7 python3_4"
 PYTHON_SINGLE_TARGET="python2_7"
-USE_PYTHON="2.7 3.3"
+USE_PYTHON="2.7 3.4"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/server-x86_64/
