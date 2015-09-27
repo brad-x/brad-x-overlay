@@ -35,14 +35,14 @@ sys-fs/cryptsetup -gcrypt
 
 # Misc
 app-emulation/libvirt virt-network -nfs -iscsi
-x11-drivers/ati-drivers qt4
-app-emulation/virtualbox qt4 vnc
+#x11-drivers/ati-drivers qt4
+#app-emulation/virtualbox qt4 vnc
 media-video/mplayer mpg123
 media-video/mjpegtools sdl
 sys-libs/zlib minizip
-media-sound/audacious -gtk gtk3
-media-plugins/audacious-plugins -gtk gtk3
-media-video/mkvtoolnix wxwidgets
+#media-sound/audacious -gtk gtk3
+#media-plugins/audacious-plugins -gtk gtk3
+#media-video/mkvtoolnix wxwidgets
 sci-astronomy/celestia -gnome
 net-libs/webkit-gtk gstreamer
 net-irc/hexchat plugin-checksum plugin-doat plugin-fishlim plugin-sysinfo
@@ -55,8 +55,8 @@ sys-libs/libosinfo introspection
 app-emulation/virt-manager gtk
 x11-libs/gtk+ X introspection
 x11-libs/cairo X
-x11-libs/gdk-pixbuf X
-net-misc/spice-gtk gtk3
+#x11-libs/gdk-pixbuf X
+#net-misc/spice-gtk gtk3
 
 # Apache and PHP can't be threaded
 www-servers/apache -threads

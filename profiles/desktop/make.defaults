@@ -3,19 +3,19 @@ CXXFLAGS="-O2 -pipe"
 CHOST="x86_64-pc-linux-gnu"
 MAKEOPTS="-j8"
 ACCEPT_KEYWORDS="~amd64"
-VIDEO_CARDS="intel radeon radeonsi nouveau"
+VIDEO_CARDS="intel radeon radeonsi nouveau amdgpu"
 
 EMERGE_DEFAULT_OPTS="--quiet-build=n -b"
 
-NO_USE="-gnome -eds -gnome-keyring -nautilus -networkmanager -qt3 -qt4 -kde -arts -phonon -qt3support -xine -thunar -youtube -gconf -gstreamer -introspection -wmf -xulrunner -gtk -gnome -avahi -handbook -previewer -ipod -telepathy -cups -nsplugin -consolekit -libav"
+NO_USE="-gnome -eds -gnome-keyring -nautilus -networkmanager -qt3 -qt4 -kde -arts -phonon -qt3support -xine -thunar -youtube -gconf -gstreamer -introspection -wmf -xulrunner -gtk -gnome -avahi -handbook -previewer -ipod -telepathy -cups -nsplugin -consolekit -libav -qt5 -glex2 -egl"
 
-X11_USE="X cairo g3dvl gles2 gtk gtk3 qt4 libkms opengl qt3support vdpau xcomposite xft xinerama xorg gbm uxa xa"
+X11_USE="X cairo g3dvl gtk gtk3 qt5 libkms opengl qt3support vdpau xcomposite xft xinerama xorg gbm uxa xa gles2 egl"
 
-USE_BASE="a52 aac aacs acpi ads alsa apng autoipd binfilter bluray cdda cddax cddb cdio cdr chm css cups daap dbus dc1394 device-mapper dhcpcd dirac djvu dts dvb dvd dvdr dvi encode exif expat extras faac faad ffmpeg flac fontconfig foomaticdb fuse gif gmp gnutls gpm gs gsm gtkstyle gudev hal hires-icons html http hwdb icu id3tag idn ieee1394 imap iscsi jpeg karma kdrive ladspa lame lcms ldap libass libmpeg2 libnotify libsamplerate libsysfs live lvm lzma lzo mad matroska mdnsresponder-compat mixemu mmx mmxext mng mp3 mpeg msn mtp musicbrainz nfs nntp nsplugin nss objc objc++ objc-gc ofx ogg openexr openssl opus pango pdfimport perl png podcast policykit ppds pulseaudio python qemu quotes raw rdp resolvconf rss rtc rtmp rtsp samba schroedinger sdl secure-delete sip smime smp speex spell spice sqlite sse sse2 ssse3 startup-notification stream svg system-sqlite systemd t1lib taglib templates theora threads tiff truetype twolame udev udisks unlock-notify unzip upcall upnp usb utp v4l v4l2 vala vcdinfo vorbis wav webkit winbind wma-fixed x264 xattr xml xv xvid system-cairo system-icu system-jpeg networkmanager modemmanager script usbredir system-libvpx"
+USE_BASE="a52 aac aacs acpi ads alsa apng autoipd binfilter bluray cdda cddax cddb cdio cdr chm css cups daap dbus dc1394 device-mapper dhcpcd dirac djvu dts dvb dvd dvdr dvi encode exif expat extras faac faad ffmpeg flac fontconfig foomaticdb fuse gif gmp gnutls gpm gs gsm gtkstyle gudev hal hires-icons html http hwdb icu id3tag idn ieee1394 imap iscsi jpeg karma kdrive ladspa lame lcms ldap libass libmpeg2 libnotify libsamplerate libsysfs live lvm lzma lzo mad matroska mdnsresponder-compat mixemu mmx mmxext mng mp3 mpeg msn mtp musicbrainz nfs nntp nsplugin nss objc objc++ objc-gc ofx ogg openexr openssl opus pango pdfimport perl png podcast policykit ppds pulseaudio python qemu quotes raw rdp resolvconf rss rtc rtmp rtsp samba schroedinger sdl secure-delete sip smime smp speex spell spice sqlite sse sse2 ssse3 startup-notification stream svg system-sqlite systemd t1lib taglib templates theora threads tiff truetype twolame udev udisks unlock-notify unzip upcall upnp usb utp v4l v4l2 vala vcdinfo vorbis wav webkit winbind wma-fixed x264 xattr xml xv xvid system-cairo system-icu system-jpeg networkmanager modemmanager script usbredir system-libvpx pcre16 evdev"
 
 SERVER_USE="apache2 ads bcmath calendar cdb cjk curl curlwrappers embed enchant flatfile fpm ftp gd inifile intl iodbc kerberos libevent mhash mysql odbc pam_krb5 pcntl pdo snmp soap sockets sqlite3 tidy vhosts virt-network wddx xmlreader xmlrpc xmlwriter xsl xslt zip"
 
-GNOME_USE="gnome applet automount avahi beagle bluetooth canberra clutter colord dconf deskbar eds galago gconf gdu glade gnome-keyring gsf gstreamer gtk3 icq introspection iptc irc jabber lightning mono moonlight nautilus nm-applet pdf playlist short-touchpad-timeout telepathy tracker xmp xps xscreensaver yahoo zeitgeist -folks"
+GNOME_USE="gnome applet automount avahi beagle bluetooth canberra clutter colord dconf deskbar eds galago gconf gdu glade gnome-keyring gsf gstreamer gtk3 icq introspection iptc irc jabber lightning nautilus nm-applet pdf playlist short-touchpad-timeout telepathy tracker xmp xps xscreensaver yahoo zeitgeist -folks"
 
 KDE_USE="kde qt4 qt3support sql webkit thumbnail mysql canberra declarative script wxwidgets semantic-desktop handbook desktopglobe fcitx ibus json oauth qalculate qwt scim designer-plugin gps plasma shapefile zip  gadu groupwise jingle latex meanwhile oscar skype sms webpresence winpopup zeroconf rdesktop vnc farsight video gstreamer introspection epub pdf kdepim"
 
@@ -36,9 +36,11 @@ SANE_BACKENDS="genesys"
 
 APACHE2_MPMS="prefork"
 
-RUBY_TARGETS="ruby19 ruby20 ruby21"
-PYTHON_TARGETS="python2_7 python3_3"
+RUBY_TARGETS="ruby20 ruby21 ruby22"
+PYTHON_TARGETS="python2_7"
 PYTHON_SINGLE_TARGET="python2_7"
 USE_PYTHON="2.7 3.3"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/desktop-x86_64/
+
+ABI_X86="32 64"

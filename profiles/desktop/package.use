@@ -3,7 +3,7 @@ sys-apps/portage git
 # GNOME
 gnome-base/gnome -extras
 app-misc/tracker -ffmpeg
->=media-libs/libmediaart-0.1 -qt4
+>=media-libs/libmediaart-0.1 -qt4 -gtk
 media-libs/clutter egl 
 
 # No graphics in command line tools
@@ -14,7 +14,7 @@ net-misc/unison -gtk
 sys-devel/gcc -gtk
 
 # No browser plugins
-media-video/vlc httpd lua qt4 -nsplugin -rdp
+media-video/vlc httpd lua -nsplugin -rdp
 app-emulation/virt-viewer -nsplugin
 app-text/acroread -nsplugin
 app-office/libreoffice-bin java -nsplugin
@@ -38,24 +38,22 @@ sys-kernel/genkernel-next -crypt cryptsetup
 sys-fs/cryptsetup -gcrypt
 
 # Misc
-media-libs/avidemux-plugins qt4
-media-video/avidemux qt4
-net-p2p/transmission -gtk qt4
-net-analyzer/wireshark -gtk3 -gtk2 qt4
+media-libs/avidemux-plugins qt5
+media-video/avidemux qt5
+net-p2p/transmission -gtk qt5
+net-analyzer/wireshark -gtk3 -gtk2 qt5
 www-client/xombrero examples
 app-emulation/libvirt virt-network -nfs -iscsi
-x11-drivers/ati-drivers qt4
-app-emulation/virtualbox qt4 vnc
+app-emulation/virtualbox qt5 vnc
 media-video/mplayer mpg123
 media-video/mjpegtools sdl
 sys-libs/zlib minizip
 media-sound/audacious -gtk gtk3
-media-sound/rhythmbox python_targets_python3_3 python_single_target_python3_3
+media-sound/rhythmbox  python_single_target_python3_3
 media-plugins/audacious-plugins -gtk gtk3
 media-video/mkvtoolnix wxwidgets
 sci-astronomy/celestia -gnome
-net-libs/webkit-gtk gstreamer -gles2 
-# -gles2 -webgl opengl -egl
+net-libs/webkit-gtk webgl gles2 -opengl egl
 net-irc/hexchat plugin-checksum plugin-doat plugin-fishlim plugin-sysinfo
 net-misc/spice-gtk -gstreamer
 media-video/handbrake -ffmpeg
@@ -63,6 +61,9 @@ sys-auth/polkit -pam
 net-misc/remmina freerdp
 x11-misc/x11vnc system-libvncserver
 net-libs/farsight2 -python
+app-crypt/qca qt4
+dev-qt/qtwebkit printsupport
+
 # Apache and PHP can't be threaded
 www-servers/apache -threads
 dev-lang/php -threads
@@ -73,28 +74,30 @@ net-dns/bind -berkdb -mysql -odbc -ldap
 # For RetroShare
 net-libs/libssh server
 dev-qt/qt-mobility multimedia
-net-p2p/retroshare links-cloud voip qt4
+net-p2p/retroshare links-cloud voip 
 
 # required by kdenlive
 kde-base/kdelibs semantic-desktop
-media-libs/mlt qt4 melt kdenlive
-app-text/poppler qt4
-dev-libs/libattica qt4
-media-video/kdenlive qt4 melt kdenlive semantic-desktop
+media-libs/mlt melt kdenlive
+dev-libs/libattica
+media-video/kdenlive melt kdenlive semantic-desktop
 
 # required by Kontact
-app-office/akonadi-server qt4 -mysql
+app-office/akonadi-server -mysql
 kde-base/kdepimlibs semantic-desktop
-media-libs/phonon qt4 -qt5
-media-libs/phonon-gstreamer qt4
+media-libs/phonon qt5
+media-libs/phonon-gstreamer qt5
 
 dev-cpp/commoncpp2 -gnutls
 
 # required by www-plugins/pipelight-0.2.7.3
-app-emulation/wine pipelight
 dev-libs/elfutils static-libs
 
 net-im/pidgin -eds
 
 # Needed by Firefox 33.0
 media-libs/libvpx postproc
+
+net-fs/samba client
+
+media-libs/gst-plugins-bad -egl -gles2

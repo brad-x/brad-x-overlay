@@ -1,3 +1,5 @@
+>=dev-lang/mono-4.0
+
 >sys-boot/syslinux-4
 
 =app-admin/keepassx-2.0_alpha5
@@ -5,8 +7,8 @@
 =media-libs/libopenraw-0.1.0_pre20130826
 
 # Library choices when there are multiple
-# media-video/libav
-media-video/ffmpeg
+media-video/libav
+# media-video/ffmpeg
 net-libs/farsight2
 >=www-client/chromium-40
 
