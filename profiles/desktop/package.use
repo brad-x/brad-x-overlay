@@ -44,7 +44,7 @@ net-p2p/transmission -gtk qt5
 net-analyzer/wireshark -gtk3 -gtk2 qt5
 www-client/xombrero examples
 app-emulation/libvirt virt-network -nfs -iscsi
-app-emulation/virtualbox qt5 vnc
+app-emulation/virtualbox qt4 vnc
 media-video/mplayer mpg123
 media-video/mjpegtools sdl
 sys-libs/zlib minizip
