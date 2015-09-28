@@ -14,7 +14,7 @@ net-misc/unison -gtk
 sys-devel/gcc -gtk
 
 # No browser plugins
-media-video/vlc httpd lua -nsplugin -rdp
+media-video/vlc httpd lua -nsplugin -rdp -gnome
 app-emulation/virt-viewer -nsplugin
 app-text/acroread -nsplugin
 app-office/libreoffice-bin java -nsplugin
