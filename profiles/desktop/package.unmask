@@ -4,3 +4,4 @@ kde-misc/kgtk
 =media-libs/libmediaart-0.7.0
 =media-video/ffmpeg-2.5.3
 net-voip/sflphone
+www-client/chromium

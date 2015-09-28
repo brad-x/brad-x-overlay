@@ -56,14 +56,13 @@ sci-astronomy/celestia -gnome
 net-libs/webkit-gtk webgl gles2 -opengl egl
 net-irc/hexchat plugin-checksum plugin-doat plugin-fishlim plugin-sysinfo
 net-misc/spice-gtk -gstreamer
-media-video/handbrake -ffmpeg
 sys-auth/polkit -pam
 net-misc/remmina freerdp
 x11-misc/x11vnc system-libvncserver
 net-libs/farsight2 -python
 app-crypt/qca qt4
 dev-qt/qtwebkit printsupport
-
+media-video/ffmpeg -samba 
 # Apache and PHP can't be threaded
 www-servers/apache -threads
 dev-lang/php -threads
