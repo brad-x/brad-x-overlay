@@ -62,4 +62,3 @@ PHP_INI_VERSION="production"
 PORTDIR="/usr/portage"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/server-x86_64-stable/
-
