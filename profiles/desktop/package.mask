@@ -12,3 +12,4 @@ media-video/libav
 net-libs/farsight2
 >=www-client/chromium-40
 
+>=media-libs/x265-1.8.0
