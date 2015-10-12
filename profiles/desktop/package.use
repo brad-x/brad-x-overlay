@@ -48,9 +48,9 @@ app-emulation/virtualbox qt4 vnc
 media-video/mplayer mpg123
 media-video/mjpegtools sdl
 sys-libs/zlib minizip
-media-sound/audacious -gtk gtk3
+media-sound/audacious -gtk -qt5 gtk3
 media-sound/rhythmbox  python_single_target_python3_3
-media-plugins/audacious-plugins -gtk gtk3
+media-plugins/audacious-plugins -gtk -qt5 gtk3
 media-video/mkvtoolnix wxwidgets
 sci-astronomy/celestia -gnome
 net-libs/webkit-gtk webgl gles2 -opengl egl
