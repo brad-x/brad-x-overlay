@@ -1,5 +1,7 @@
 sys-apps/portage git
 
+net-fs/samba addns aio
+
 # No GNOME Extra Apps
 gnome-base/gnome -extras
 
@@ -73,8 +75,6 @@ media-video/kdenlive qt4 melt kdenlive semantic-desktop
 # required by Kontact
 app-office/akonadi-server qt4 -mysql
 kde-base/kdepimlibs semantic-desktop
-
-net-fs/samba bi_heimdal ads client
 
 >=dev-db/mysql-5.6.26-r1 client-libs
 

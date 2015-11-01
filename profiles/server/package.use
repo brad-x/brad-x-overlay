@@ -1,5 +1,7 @@
 sys-apps/portage git
 
+net-fs/samba addns aio
+
 # No GNOME Extra Apps
 gnome-base/gnome -extras
 

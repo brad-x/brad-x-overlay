@@ -10,3 +10,4 @@ www-apps/wordpress amd64
 sys-block/tgt amd64
 net-analyzer/icinga2 amd64
 =virtual/libmysqlclient-18 ~amd64
+net-fs/samba ~amd64
