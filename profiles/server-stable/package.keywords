@@ -10,4 +10,13 @@ www-apps/wordpress amd64
 sys-block/tgt amd64
 net-analyzer/icinga2 amd64
 =virtual/libmysqlclient-18 ~amd64
-net-fs/samba ~amd64
+
+# required by net-fs/samba-4.3.1::brad-x-overlay
+sys-libs/uid_wrapper amd64
+sys-libs/ldb amd64
+sys-libs/tdb amd64
+sys-libs/tevent amd64
+sys-libs/nss_wrapper amd64
+net-libs/socket_wrapper amd64
+sys-libs/talloc amd64
+net-fs/samba amd64
