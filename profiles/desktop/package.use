@@ -102,3 +102,5 @@ net-fs/samba client
 media-libs/gst-plugins-bad -egl -gles2
 
 www-client/chromium -gtk3 widevine
+
+app-text/texlive-core xetex
