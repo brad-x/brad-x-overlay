@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/virt-manager/virt-manager-9999.ebuild,v 1.26 2015/01/01 10:36:02 tamiko Exp $
+# $Id$
 
 EAPI=5
 
@@ -16,15 +16,19 @@ if [[ ${PV} = *9999* ]]; then
 	inherit git-2
 	SRC_URI=""
 	KEYWORDS=""
-	EGIT_REPO_URI="git://git.fedorahosted.org/virt-manager.git"
+	EGIT_REPO_URI="https://github.com/virt-manager/virt-manager.git"
 else
 	SRC_URI="http://virt-manager.org/download/sources/${PN}/${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
 
+VM_LINGUAS=( as bg bn_IN bs ca cmn cs da de en_GB es fi fr gu hi hr hu is
+	it ja kn ko ml mr ms nb nl or pa pl pt pt_BR ro ru sk sr sr@latin sv ta te
+	tr uk vi zh_CN zh_TW )
+
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="gnome-keyring gtk policykit sasl"
+IUSE="gnome-keyring gtk policykit sasl ${VM_LINGUAS[@]/#/linguas_}"
 
 RDEPEND="!app-emulation/virtinst
 	dev-python/libvirt-python[${PYTHON_USEDEP}]
@@ -33,13 +37,14 @@ RDEPEND="!app-emulation/virtinst
 	dev-libs/libxml2[python,${PYTHON_USEDEP}]
 	dev-python/ipaddr[${PYTHON_USEDEP}]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
-	dev-python/urlgrabber[${PYTHON_USEDEP}]
-	sys-libs/libosinfo[introspection]
+	dev-python/requests[${PYTHON_USEDEP}]
+	>=sys-libs/libosinfo-0.2.10[introspection]
 	gtk? (
 		x11-libs/gtk+:3[introspection]
 		gnome-base/dconf
-		>=net-libs/gtk-vnc-0.3.8[gtk3,introspection]
+		>=net-libs/gtk-vnc-0.3.8[gtk3,introspection,python,${PYTHON_USEDEP}]
 		net-misc/spice-gtk[usbredir,gtk3,introspection,python,sasl?,${PYTHON_USEDEP}]
+		net-misc/x11-ssh-askpass
 		x11-libs/vte:2.90[introspection]
 		gnome-keyring? ( dev-python/gnome-keyring-python )
 		policykit? ( sys-auth/polkit[introspection] )
@@ -52,9 +57,12 @@ DEPEND="${RDEPEND}
 DOCS=( README NEWS )
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-optional_avahi.patch
-
 	distutils-r1_src_prepare
+
+	local lang
+	for lang in ${VM_LINGUAS[@]}; do
+		use linguas_${lang} || rm -v "po/${lang}.po" || die
+	done
 }
 
 distutils-r1_python_compile() {
@@ -65,10 +73,13 @@ distutils-r1_python_compile() {
 		--default-graphics=spice
 }
 
-python_install_all() {
-	distutils-r1_python_install_all
+src_install() {
+	local mydistutilsargs=( --no-update-icon-cache --no-compile-schemas )
+
+	distutils-r1_src_install
+
 	python_fix_shebang \
-		"${ED}"/usr/share/virt-manager/virt-{clone,convert,image,install,manager}
+		"${ED}"/usr/share/virt-manager/virt-{clone,convert,install,manager}
 }
 
 pkg_preinst() {
