@@ -2,7 +2,7 @@ app-emulation/docker overlay
 
 sys-apps/portage git
 
-net-fs/samba addns aio
+net-fs/samba addc addns aio
 
 # No GNOME Extra Apps
 gnome-base/gnome -extras
