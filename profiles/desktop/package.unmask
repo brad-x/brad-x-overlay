@@ -5,3 +5,4 @@ kde-misc/kgtk
 =media-video/ffmpeg-2.5.3
 net-voip/sflphone
 www-client/chromium
+>=net-fs/samba-4.3.0
