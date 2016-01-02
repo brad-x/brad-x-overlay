@@ -36,7 +36,7 @@ SANE_BACKENDS="genesys"
 
 APACHE2_MPMS="prefork"
 
-RUBY_TARGETS="ruby20 ruby21 ruby22"
+RUBY_TARGETS="ruby20 ruby21 ruby22 ruby23"
 PYTHON_TARGETS="python2_7"
 PYTHON_SINGLE_TARGET="python2_7"
 USE_PYTHON="2.7 3.3"
