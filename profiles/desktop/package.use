@@ -1,57 +1,7 @@
 sys-apps/portage git
-
-# GNOME
-gnome-base/gnome -extras
+media-libs/libmediaart -gtk
 app-misc/tracker -ffmpeg
->=media-libs/libmediaart-0.1 -qt4 -gtk
-
-# No graphics in command line tools
-sys-boot/grub -truetype
-net-analyzer/nmap -gtk
-sys-process/psmisc -X
-net-misc/unison -gtk
-sys-devel/gcc -gtk
-
-# No browser plugins
-media-video/vlc httpd lua -nsplugin -rdp -gnome
-app-emulation/virt-viewer -nsplugin
-app-text/acroread -nsplugin
-app-office/libreoffice-bin java -nsplugin
-app-office/libreoffice java -nsplugin
-
-# Nothing seems to like gnutls
-net-misc/curl -gnutls 
-net-misc/networkmanager -gnutls -dhclient
-net-nds/openldap -gnutls
-
-# Flash for 64bit and 32bit browsers
-www-plugins/adobe-flash 32bit 64bit 
-
-# No Enigmail in Thunderbird
-mail-client/thunderbird -crypt
-
-# genkernel configurations
-sys-fs/mdadm static
-sys-fs/cryptsetup -gcrypt
-
-# Misc
-media-libs/avidemux-plugins qt5
-media-video/avidemux qt5
-net-p2p/transmission -gtk qt5
-net-analyzer/wireshark -gtk3 -gtk2 qt5
-media-sound/audacious -gtk -qt5 gtk3
-media-plugins/audacious-plugins -gtk -qt5 gtk3
-media-video/mkvtoolnix wxwidgets
-net-irc/hexchat plugin-checksum plugin-doat plugin-fishlim plugin-sysinfo
-net-misc/spice-gtk -gstreamer
-media-video/ffmpeg -samba 
-# Apache and PHP can't be threaded
-www-servers/apache -threads
-dev-lang/php -threads
-
-# Disable BIND DLZ for now
-net-dns/bind -berkdb -mysql -odbc -ldap
-
-dev-cpp/commoncpp2 -gnutls
-
 net-fs/samba client
+net-libs/libproxy -webkit
+net-misc/spice-gtk -gstreamer vala
+sys-fs/cryptsetup -gcrypt -kernel openssl
