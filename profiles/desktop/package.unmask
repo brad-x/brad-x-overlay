@@ -1,8 +1,0 @@
->=net-libs/libotr-4.0.0
->=x11-plugins/pidgin-otr-4.0.0
-kde-misc/kgtk
-=media-libs/libmediaart-0.7.0
-=media-video/ffmpeg-2.5.3
-net-voip/sflphone
-www-client/chromium
->=net-fs/samba-4.3.0
