@@ -1,4 +1,5 @@
 sys-apps/portage git
+gnome-base/gnome -extras
 media-libs/libmediaart -gtk
 app-misc/tracker -ffmpeg
 net-fs/samba client
