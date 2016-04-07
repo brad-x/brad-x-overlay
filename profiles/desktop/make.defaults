@@ -31,6 +31,3 @@ PORTAGE_BINHOST=http://packages.brad-x.com/desktop-x86_64/
 ABI_X86="32 64"
 
 EMERGE_DEFAULT_OPTS="--quiet-build=n -b"
-
-DISTDIR="/var/tmp/portage/distfiles"
-PKGDIR="/var/tmp/portage/packages"

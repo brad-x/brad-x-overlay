@@ -8,3 +8,4 @@ net-misc/spice-gtk -gstreamer vala
 sys-fs/cryptsetup -gcrypt -kernel openssl
 www-client/chromium hidpi widevine
 dev-qt/qtwebkit printsupport
+net-misc/spice-gtk usbredir
