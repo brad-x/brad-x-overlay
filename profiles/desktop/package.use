@@ -17,3 +17,7 @@ app-emulation/docker overlay
 ## For libvirt networking support
 app-emulation/libvirt virt-network
 net-dns/dnsmasq script
+
+>=dev-libs/libgit2-0.24.0 threads ssh
+>=dev-libs/libgit2-glib-0.24.0 ssh
+
