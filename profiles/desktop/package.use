@@ -8,6 +8,11 @@ net-misc/spice-gtk -gstreamer vala
 sys-fs/cryptsetup -gcrypt -kernel openssl
 www-client/chromium hidpi widevine
 dev-qt/qtwebkit printsupport
+app-misc/powerline bash doc extra man vim
+net-irc/hexchat plugin-sysinfo
+## Docker
+sys-libs/libseccomp static-libs
+app-emulation/docker overlay
 
 ## For libvirt networking support
 app-emulation/libvirt virt-network
