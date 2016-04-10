@@ -10,6 +10,7 @@ www-client/chromium hidpi widevine
 dev-qt/qtwebkit printsupport
 app-misc/powerline bash doc extra man vim
 net-irc/hexchat plugin-sysinfo
+
 ## Docker
 sys-libs/libseccomp static-libs
 app-emulation/docker overlay
@@ -18,6 +19,9 @@ app-emulation/docker overlay
 app-emulation/libvirt virt-network
 net-dns/dnsmasq script
 
+## Gitg
 >=dev-libs/libgit2-0.24.0 threads ssh
 >=dev-libs/libgit2-glib-0.24.0 ssh
 
+## Transmission QT
+net-p2p/transmission -gtk qt5
