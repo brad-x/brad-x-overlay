@@ -6,7 +6,7 @@ ACCEPT_KEYWORDS="~amd64"
 
 NO_USE="-bindist -qt4"
 
-USE_BASE="mmx sse sse2 xa upnp-av apache2_mpms_prefork icu idn qt5 gd dhcp lzma lzo webp libsamplerate tslib lame opus theora rdp spice xps xmp mtp ios t1lib djvu dvi daap thetvdb subtitles fat highlight map pcre16 ffmpeg aacplus bluray faac faad gsm ladspa librtmp openssl schroedinger x265 fftw samba webkit python cryptsetup cups dirac dts dvd dvdr fuse libass matroska usbredir"
+USE_BASE="mmx sse sse2 xa upnp-av apache2_mpms_prefork icu idn qt5 gd dhcp lzma lzo webp libsamplerate tslib lame opus theora rdp spice xps xmp mtp ios t1lib djvu dvi daap thetvdb subtitles fat highlight map pcre16 ffmpeg aacplus bluray faac faad gsm ladspa librtmp openssl schroedinger x265 fftw samba webkit python cryptsetup cups dirac dts dvd dvdr fuse libass matroska usbredir gnuefi"
 
 X11_USE="libkms fontconfig xinerama"
 
