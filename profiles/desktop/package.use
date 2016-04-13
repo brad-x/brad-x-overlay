@@ -25,3 +25,9 @@ net-dns/dnsmasq script
 
 ## Transmission QT
 net-p2p/transmission -gtk qt5
+
+## Firefox
+www-client/firefox -gstreamer-0 system-cairo system-icu system-jpeg -system-libevent system-libvpx system-sqlite
+dev-db/sqlite secure-delete
+media-libs/libvpx postproc
+
