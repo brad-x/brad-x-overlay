@@ -26,7 +26,7 @@ LICENSE="GPL-3"
 SLOT="0"
 
 IUSE="acl addc addns ads avahi client cluster cups dmapi fam gnutls iprint
-ldap pam quota selinux syslog +system-mitkrb5 systemd test winbind"
+ldap pam quota selinux syslog systemd test winbind"
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/samba-4.0/policy.h
@@ -66,8 +66,6 @@ CDEPEND="${PYTHON_DEPS}
 	gnutls? ( dev-libs/libgcrypt:0
 		>=net-libs/gnutls-1.4.0 )
 	ldap? ( net-nds/openldap[${MULTILIB_USEDEP}] )
-	system-mitkrb5? ( app-crypt/mit-krb5[${MULTILIB_USEDEP}] )
-	!system-mitkrb5? ( >=app-crypt/heimdal-1.5[-ssl,${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd:0= )"
 DEPEND="${CDEPEND}
 	virtual/pkgconfig"
@@ -76,14 +74,13 @@ RDEPEND="${CDEPEND}
 	selinux? ( sec-policy/selinux-samba )
 "
 
-REQUIRED_USE="addc? ( gnutls !system-mitkrb5 )
+REQUIRED_USE="addc? ( gnutls )
 	ads? ( acl gnutls ldap )
 	${PYTHON_REQUIRED_USE}"
 
 S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
-	"${FILESDIR}/${PN}-4.2.3-heimdal_compilefix.patch"
 	"${FILESDIR}/${PN}-4.4.0-pam.patch"
 )
 
@@ -117,7 +114,7 @@ multilib_src_configure() {
 		--localstatedir=/var
 		--with-modulesdir=/usr/$(get_libdir)/samba
 		--with-piddir=/var/run/${PN}
-		--bundled-libraries=NONE
+		--bundled-libraries=heimdal
 		--builtin-libraries=NONE
 		--disable-rpath
 		--disable-rpath-install
@@ -144,7 +141,6 @@ multilib_src_configure() {
 			$(use_with quota quotas)
 			$(use_with syslog)
 			$(use_with systemd)
-			$(usex system-mitkrb5 '--with-system-mitkrb5' '')
 			$(use_with winbind)
 			$(usex test '--enable-selftest' '')
 			--with-shared-modules=${SHAREDMODS}
@@ -167,7 +163,6 @@ multilib_src_configure() {
 			--without-quotas
 			--without-syslog
 			--without-systemd
-			$(usex system-mitkrb5 '--with-system-mitkrb5' '')
 			--without-winbind
 			--disable-python
 		)

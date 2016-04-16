@@ -10,17 +10,16 @@ VALA_USE_DEPEND="vapigen"
 
 PYTHON_COMPAT=( python2_7 python3_4 )
 
-inherit autotools eutils multibuild python-single-r1 vala git-r3
+inherit autotools eutils multibuild python-single-r1 vala
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
 HOMEPAGE="http://spice-space.org http://gitorious.org/spice-gtk"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
+SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
 KEYWORDS="alpha amd64 ~arm ia64 ppc ppc64 sparc x86"
 IUSE="dbus gstreamer gtk3 +introspection lz4 policykit pulseaudio python sasl smartcard static-libs usbredir vala webdav"
-SRC_URI=""
-EGIT_REPO_URI="git://git.freedesktop.org/git/spice/spice-gtk/"
 
 REQUIRED_USE="
 	python? ( ${PYTHON_REQUIRED_USE} )
@@ -67,7 +66,7 @@ RDEPEND="
 		>=net-libs/libsoup-2.49.91 )
 "
 DEPEND="${RDEPEND}
-	>=app-emulation/spice-protocol-0.12.10
+	=app-emulation/spice-protocol-0.12.10
 	dev-perl/Text-CSV
 	dev-python/pyparsing[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]
@@ -84,8 +83,10 @@ DEPEND="${RDEPEND}
 # dev-lang/perl
 
 src_prepare() {
-	#eautoreconf
-	NOCONFIGURE=1 ./autogen.sh
+	epatch_user
+
+	AT_NO_RECURSIVE="yes" eautoreconf
+
 	use vala && vala_src_prepare
 }
 
@@ -120,7 +121,7 @@ src_configure() {
 		--enable-pie"
 
 	# Parameter of --with-gtk
-	MULTIBUILD_VARIANTS=( 3.0 )
+	MULTIBUILD_VARIANTS=( 2.0 )
 	use gtk3 && MULTIBUILD_VARIANTS+=( 3.0 )
 
 	configure() {
@@ -147,7 +148,7 @@ src_test() {
 }
 
 src_install() {
-	dodoc AUTHORS COPYING NEWS README TODO
+	dodoc AUTHORS ChangeLog NEWS README THANKS TODO
 
 	multibuild_foreach_variant run_in_build_dir default
 
