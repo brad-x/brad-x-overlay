@@ -24,7 +24,7 @@ net-dns/dnsmasq script
 >=dev-libs/libgit2-glib-0.24.0 ssh
 
 ## Transmission QT
-net-p2p/transmission -gtk qt5
+net-p2p/transmission gtk -qt5
 
 ## Firefox
 www-client/firefox -gstreamer-0 system-cairo system-icu system-jpeg -system-libevent system-libvpx system-sqlite
