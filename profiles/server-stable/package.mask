@@ -5,3 +5,5 @@
 =app-emulation/libvirt-1.1.1-r2
 
 =dev-libs/icu-51.2
+
+=net-fs/samba-4.5.0_rc2
