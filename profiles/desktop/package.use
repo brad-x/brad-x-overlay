@@ -10,6 +10,11 @@ www-client/chromium hidpi widevine
 dev-qt/qtwebkit printsupport
 app-misc/powerline bash doc extra man vim
 net-irc/hexchat plugin-sysinfo
+sys-apps/util-linux -python_single_target_python2_7 python_single_target_python3_4
+dev-libs/liborcus -python_single_target_python2_7 python_single_target_python3_4
+app-office/libreoffice -python_single_target_python2_7 python_single_target_python3_4
+dev-libs/libixion -python_single_target_python2_7 python_single_target_python3_4
+www-servers/apache -threads
 
 ## Docker
 sys-libs/libseccomp static-libs
