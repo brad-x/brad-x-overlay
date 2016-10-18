@@ -36,3 +36,5 @@ www-client/firefox -gstreamer-0 system-cairo system-icu system-jpeg -system-libe
 dev-db/sqlite secure-delete
 media-libs/libvpx postproc
 
+## RPM / YUM
+app-arch/rpm lua
