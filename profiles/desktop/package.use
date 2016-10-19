@@ -38,3 +38,6 @@ media-libs/libvpx postproc
 
 ## RPM / YUM
 app-arch/rpm lua
+
+## SANE Backends needs this
+dev-libs/libgusb vala
