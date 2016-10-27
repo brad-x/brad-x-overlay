@@ -41,3 +41,5 @@ app-arch/rpm lua
 
 ## SANE Backends needs this
 dev-libs/libgusb vala
+
+media-sound/pulseaudio qt4 equalizer

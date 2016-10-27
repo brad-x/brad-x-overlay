@@ -10,3 +10,4 @@ media-video/libav
 #=app-emulation/spice-protocol-0.12.11
 #
 =media-libs/mesa-13.0.0_rc1
+=media-libs/mesa-13.0.0_rc2
