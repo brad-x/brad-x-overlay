@@ -41,3 +41,10 @@ app-arch/rpm lua
 
 ## SANE Backends needs this
 dev-libs/libgusb vala
+
+## K3b
+media-libs/phonon -gstreamer vlc qt4
+media-libs/phonon-vlc qt4
+app-crypt/qca qt4
+sys-auth/polkit-qt qt4
+dev-libs/libdbusmenu-qt qt4
