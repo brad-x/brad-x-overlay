@@ -1,0 +1,53 @@
+diff -ruN geary-0.11.2.orig/src/client/application/geary-application.vala geary-0.11.2/src/client/application/geary-application.vala
+--- geary-0.11.2.orig/src/client/application/geary-application.vala	2016-08-28 02:23:46.000000000 -0400
++++ geary-0.11.2/src/client/application/geary-application.vala	2016-11-20 11:30:37.160943582 -0500
+@@ -36,9 +36,9 @@
+         null
+     };
+     
+-    private static const string ACTION_ENTRY_COMPOSE = "compose";
++    private const string ACTION_ENTRY_COMPOSE = "compose";
+     
+-    public static const ActionEntry[] action_entries = {
++    public const ActionEntry[] action_entries = {
+         {ACTION_ENTRY_COMPOSE, activate_compose, "s"},
+     };
+     
+diff -ruN geary-0.11.2.orig/src/client/components/conversation-find-bar.vala geary-0.11.2/src/client/components/conversation-find-bar.vala
+--- geary-0.11.2.orig/src/client/components/conversation-find-bar.vala	2016-08-28 02:23:46.000000000 -0400
++++ geary-0.11.2/src/client/components/conversation-find-bar.vala	2016-11-20 11:30:37.180944335 -0500
+@@ -5,7 +5,7 @@
+  */
+ 
+ public class ConversationFindBar : Gtk.Layout {
+-    private static const string entry_not_found_style =
++    private const string entry_not_found_style =
+ """
+ .geary-not-found {
+     color: white;
+diff -ruN geary-0.11.2.orig/src/client/dialogs/attachment-dialog.vala geary-0.11.2/src/client/dialogs/attachment-dialog.vala
+--- geary-0.11.2.orig/src/client/dialogs/attachment-dialog.vala	2016-08-28 02:23:46.000000000 -0400
++++ geary-0.11.2/src/client/dialogs/attachment-dialog.vala	2016-11-20 11:30:37.260947353 -0500
+@@ -5,8 +5,8 @@
+  */
+ 
+ public class AttachmentDialog : Gtk.FileChooserDialog {
+-    private static const int PREVIEW_SIZE = 180;
+-    private static const int PREVIEW_PADDING = 3;
++    private const int PREVIEW_SIZE = 180;
++    private const int PREVIEW_PADDING = 3;
+     
+     private static string? current_folder = null;
+     
+diff -ruN geary-0.11.2.orig/src/console/main.vala geary-0.11.2/src/console/main.vala
+--- geary-0.11.2.orig/src/console/main.vala	2016-08-28 02:23:46.000000000 -0400
++++ geary-0.11.2/src/console/main.vala	2016-11-20 11:30:37.330949994 -0500
+@@ -15,7 +15,7 @@
+ class ImapConsole : Gtk.Window {
+     public const string VERSION = _VERSION;
+     
+-    private static const int KEEPALIVE_SEC = 60 * 10;
++    private const int KEEPALIVE_SEC = 60 * 10;
+     
+     private Gtk.TextView console = new Gtk.TextView();
+     private Gtk.Entry cmdline = new Gtk.Entry();

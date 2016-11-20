@@ -48,3 +48,6 @@ media-libs/phonon-vlc qt4
 app-crypt/qca qt4
 sys-auth/polkit-qt qt4
 dev-libs/libdbusmenu-qt qt4
+
+## Mono 64bit only
+dev-lang/mono -abi_x86_32
