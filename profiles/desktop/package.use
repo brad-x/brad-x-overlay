@@ -51,3 +51,6 @@ dev-libs/libdbusmenu-qt qt4
 
 ## Mono 64bit only
 dev-lang/mono -abi_x86_32
+
+## Clementine
+media-libs/libechonest qt4
