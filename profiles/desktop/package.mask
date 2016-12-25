@@ -9,3 +9,6 @@ media-video/libav
 
 # Temporarily mask until items depending on it catch up
 >=net-misc/freerdp-2
+
+# Broken
+=sys-libs/libosinfo-1.0.0
