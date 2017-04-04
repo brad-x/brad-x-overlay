@@ -54,3 +54,4 @@ dev-lang/mono -abi_x86_32
 
 ## Clementine
 media-libs/libechonest qt4
+media-libs/libmygpo-qt qt4
