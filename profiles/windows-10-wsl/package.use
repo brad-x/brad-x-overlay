@@ -1,0 +1,5 @@
+x11-libs/cairo X
+dev-vcs/git -perl -gpg -python
+net-misc/iputils -caps -filecaps
+net-misc/spice-gtk gtk3 usbredir
+app-emulation/virt-manager gtk

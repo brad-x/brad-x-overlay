@@ -1,0 +1,26 @@
+# These settings were set by the catalyst build script that automatically
+# built this stage.
+# Please consult /usr/share/portage/config/make.conf.example for a more
+# detailed example.
+CFLAGS="-O2 -pipe"
+CXXFLAGS="${CFLAGS}"
+# WARNING: Changing your CHOST is not something that should be done lightly.
+# Please consult http://www.gentoo.org/doc/en/change-chost.xml before changing.
+CHOST="x86_64-pc-linux-gnu"
+# These are the USE and USE_EXPAND flags that were used for
+# buidling in addition to what is provided by the profile.
+
+USE="-gallium -llvm -perl -container-init -device-mapper -seccomp suid dbus python sqlite"
+
+CPU_FLAGS_X86="mmx sse sse2"
+
+PORTDIR="/usr/portage"
+DISTDIR="${PORTDIR}/distfiles"
+PKGDIR="${PORTDIR}/packages"
+
+MAKEOPTS="-j8"
+
+ACCEPT_KEYWORDS="~amd64"
+
+VIDEO_CARDS=""
+QEMU_SOFTMMU_TARGETS=""
