@@ -1,3 +1,5 @@
+sys-apps/portage -ipc
+
 x11-libs/cairo X
 dev-vcs/git -perl -gpg -python
 net-misc/iputils -caps -filecaps
