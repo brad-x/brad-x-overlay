@@ -26,7 +26,7 @@ PYTHON_TARGETS="python2_7 python3_4 -python3_5"
 USE_PYTHON="2.7 3.4"
 
 INPUT_DEVICES="libinput -evdev -keyboard -mouse"
-VIDEO_CARDS="intel radeon radeonsi nouveau amdgpu"
+VIDEO_CARDS="-intel radeon radeonsi nouveau amdgpu"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/desktop-x86_64/
 
