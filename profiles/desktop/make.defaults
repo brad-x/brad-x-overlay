@@ -12,16 +12,17 @@ X11_USE="libkms fontconfig xinerama"
 
 GNOME_USE="eds udisks networkmanager gconf dconf gtk3 gtkstyle zeitgeist minizip"
 
-USE="${NO_USE} ${USE_BASE} ${X11_USE} ${GNOME_USE}"
+PLASMA_USE="legacy-systray wayland egl"
 
-ACCEPT_LICENSE="PUEL skype-eula dlj-1.1 google-talkplugin Oracle-BCLA-JavaSE google-chrome ut2003 AdobeFlash-11.x skype-4.0.0.7-copyright googleearth TeamViewer Google-TOS FraunhoferFDK"
+USE="${NO_USE} ${USE_BASE} ${X11_USE} ${GNOME_USE} ${PLASMA_USE}"
+
+ACCEPT_LICENSE="*"
 
 SANE_BACKENDS="genesys" 
 
 APACHE2_MPMS="prefork"
 
 RUBY_TARGETS="ruby24"
-#PYTHON_SINGLE_TARGET="-python2_7 python3_4"
 PYTHON_TARGETS="python2_7 python3_4 -python3_5"
 USE_PYTHON="2.7 3.4"
 
