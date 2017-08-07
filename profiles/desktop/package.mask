@@ -12,3 +12,6 @@ media-video/libav
 
 # Broken
 =sys-libs/libosinfo-1.0.0
+
+# Mask new subslot for now
+=media-libs/libwebp-0.6.0
