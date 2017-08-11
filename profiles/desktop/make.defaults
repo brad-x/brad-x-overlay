@@ -14,7 +14,7 @@ GNOME_USE="eds udisks networkmanager gconf dconf gtk3 gtkstyle zeitgeist minizip
 
 PLASMA_USE="legacy-systray activities declarative dri kipi kwallet phonon plasma qml semantic-desktop widgets"
 
-USE="${NO_USE} ${USE_BASE} ${X11_USE} ${GNOME_USE}" #${PLASMA_USE}"
+USE="${NO_USE} ${USE_BASE} ${X11_USE} ${GNOME_USE} ${PLASMA_USE}"
 
 ACCEPT_LICENSE="*"
 

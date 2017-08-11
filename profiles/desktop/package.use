@@ -31,7 +31,7 @@ net-dns/dnsmasq script
 net-p2p/transmission -gtk qt5
 
 ## Firefox
-www-client/firefox -gstreamer-0 system-cairo system-icu system-jpeg -system-libevent system-libvpx system-sqlite system-harfbuzz
+www-client/firefox -gstreamer-0 system-cairo system-icu system-jpeg system-libevent system-libvpx system-sqlite system-harfbuzz
 dev-db/sqlite secure-delete
 media-libs/libvpx postproc
 
@@ -55,8 +55,8 @@ dev-lang/mono -abi_x86_32
 media-libs/libechonest qt4
 media-libs/libmygpo-qt qt4
 
-## KDE
-dev-python/pyside -phonon
+## KDE Plasma support - remove QT/KDE dependencies where unnecessary.
+dev-python/pyside -phonon -declarative
 
 ## Wayland
 net-misc/freerdp -wayland
