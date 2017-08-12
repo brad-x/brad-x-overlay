@@ -12,9 +12,9 @@ X11_USE="libkms fontconfig xinerama wayland egl gles"
 
 GNOME_USE="eds udisks networkmanager gconf dconf gtk3 gtkstyle zeitgeist minizip"
 
-PLASMA_USE="legacy-systray activities declarative dri kipi kwallet phonon plasma qml semantic-desktop widgets"
+#PLASMA_USE="legacy-systray activities declarative dri kipi kwallet phonon plasma qml semantic-desktop widgets scripttools otr farstream"
 
-USE="${NO_USE} ${USE_BASE} ${X11_USE} ${GNOME_USE} ${PLASMA_USE}"
+USE="${NO_USE} ${USE_BASE} ${X11_USE} ${GNOME_USE}" # ${PLASMA_USE}"
 
 ACCEPT_LICENSE="*"
 
@@ -27,7 +27,7 @@ PYTHON_SINGLE_TARGET="-python2_7 -python3_4 python3_5 -python3_6"
 PYTHON_TARGETS="python2_7 -python3_6 -python3_4 python3_5"
 USE_PYTHON="2.7 3.6"
 
-INPUT_DEVICES="libinput -evdev -keyboard -mouse"
+INPUT_DEVICES="libinput synaptics -evdev -keyboard -mouse"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/desktop-x86_64/
 

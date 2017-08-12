@@ -2,7 +2,7 @@ sys-apps/portage git
 gnome-base/gnome -extras
 media-libs/libmediaart -gtk
 app-misc/tracker -ffmpeg
-net-fs/samba client
+net-fs/samba gnutls -system-mitkrb5 addc ads client winbind
 net-libs/libproxy -webkit
 net-misc/spice-gtk -gstreamer vala
 sys-fs/cryptsetup -gcrypt -kernel openssl
@@ -57,7 +57,9 @@ media-libs/libmygpo-qt qt4
 
 ## KDE Plasma support - remove QT/KDE dependencies where unnecessary.
 dev-python/pyside -phonon -declarative
-
+=dev-qt/designer-4* -phonon
+dev-qt/qtsql mysql
+media-libs/mlt melt kdenlive
 ## Wayland
 net-misc/freerdp -wayland
 
