@@ -1,0 +1,19 @@
+# Library choices when there are multiple
+media-video/libav
+
+<sys-devel/libtool-2.4.3-r2
+<sys-apps/openrc-0.13.0
+<sys-process/procps-3.3.9-r2
+<dev-lang/perl-5.18.0
+=media-libs/libepoxy-1.3.1
+
+# Temporarily mask until items depending on it catch up
+>=net-misc/freerdp-2
+
+# Broken
+=sys-libs/libosinfo-1.0.0
+
+# Mask new subslot for now
+=media-libs/libwebp-0.6.0
+
+# KDE

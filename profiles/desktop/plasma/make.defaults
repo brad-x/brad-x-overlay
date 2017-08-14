@@ -1,0 +1,3 @@
+USE="legacy-systray activities declarative dri kipi kwallet phonon plasma qml semantic-desktop widgets scripttools script otr farstream networkmanager dolphin sqlite"
+
+PORTAGE_BINHOST=http://packages.brad-x.com/desktop-plasma-x86_64/

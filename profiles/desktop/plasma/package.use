@@ -1,0 +1,11 @@
+# Work on removing this
+app-crypt/pinentry gnome-keyring
+
+# KDE Specifics 
+media-libs/cogl kms gles2
+media-libs/mesa gbm gles2
+
+#dev-qt/qtsql mysql
+#media-libs/mlt melt kdenlive
+=dev-qt/designer-4* -phonon
+
