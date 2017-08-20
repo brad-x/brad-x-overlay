@@ -8,4 +8,5 @@ media-libs/mesa gbm gles2
 #dev-qt/qtsql mysql
 #media-libs/mlt melt kdenlive
 =dev-qt/designer-4* -phonon
+kde-apps/okular -image-backend
 
