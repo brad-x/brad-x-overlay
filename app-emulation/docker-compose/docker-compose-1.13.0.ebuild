@@ -1,9 +1,8 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=5
-PYTHON_COMPAT=( python2_7 python3_4 )
+EAPI=6
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
 inherit bash-completion-r1 distutils-r1 vcs-snapshot
 
@@ -22,17 +21,21 @@ CDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	>=dev-python/cached-property-1.2.0[${PYTHON_USEDEP}]
 	<dev-python/cached-property-2[${PYTHON_USEDEP}]
+	>=dev-python/colorama-0.3.7[${PYTHON_USEDEP}]
+	<dev-python/colorama-0.4[${PYTHON_USEDEP}]
 	>=dev-python/dockerpty-0.4.1[${PYTHON_USEDEP}]
 	<dev-python/dockerpty-0.5[${PYTHON_USEDEP}]
-	~dev-python/docker-py-1.9.0_rc2[${PYTHON_USEDEP}]
+	>=dev-python/docker-py-2.2.1[${PYTHON_USEDEP}]
+	<dev-python/docker-py-3.0[${PYTHON_USEDEP}]
 	>=dev-python/docopt-0.6.1[${PYTHON_USEDEP}]
 	<dev-python/docopt-0.7[${PYTHON_USEDEP}]
 	>=dev-python/jsonschema-2.5.1[${PYTHON_USEDEP}]
 	<dev-python/jsonschema-3[${PYTHON_USEDEP}]
 	>=dev-python/pyyaml-3.10[${PYTHON_USEDEP}]
 	<dev-python/pyyaml-4[${PYTHON_USEDEP}]
+	!~dev-python/requests-2.11.0[${PYTHON_USEDEP}]
+	<dev-python/requests-2.12[${PYTHON_USEDEP}]
 	>=dev-python/requests-2.6.1[${PYTHON_USEDEP}]
-	<dev-python/requests-2.8[${PYTHON_USEDEP}]
 	>=dev-python/six-1.3.0[${PYTHON_USEDEP}]
 	<dev-python/six-2[${PYTHON_USEDEP}]
 	>=dev-python/texttable-0.8.1[${PYTHON_USEDEP}]
@@ -43,8 +46,8 @@ CDEPEND="
 	$(python_gen_cond_dep '<dev-python/enum34-2[${PYTHON_USEDEP}]' 'python2_7' )
 "
 DEPEND="
+	${CDEPEND}
 	test? (
-		${CDEPEND}
 		dev-python/pytest[${PYTHON_USEDEP}]
 		$(python_gen_cond_dep '>=dev-python/mock-1.0.1[${PYTHON_USEDEP}]' 'python2_7' )
 	)

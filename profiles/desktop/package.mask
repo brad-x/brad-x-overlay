@@ -19,4 +19,6 @@ media-video/libav
 # mask oslo-i8n for now 
 =dev-python/oslo-i18n-3.17.0
 
-# KDE
+# libpng-1.6.32 causing build failures for now
+=media-libs/libpng-1.6.32
+## KDE
