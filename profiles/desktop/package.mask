@@ -14,6 +14,9 @@ media-video/libav
 =sys-libs/libosinfo-1.0.0
 
 # Mask new subslot for now
-=media-libs/libwebp-0.6.0
+#=media-libs/libwebp-0.6.0
+
+# mask oslo-i8n for now 
+=dev-python/oslo-i18n-3.17.0
 
 # KDE

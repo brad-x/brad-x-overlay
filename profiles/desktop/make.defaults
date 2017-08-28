@@ -1,5 +1,6 @@
 CHOST="x86_64-pc-linux-gnu"
-CFLAGS="-march=x86-64 -mtune=generic -mfpmath=sse -O2 -mmmx -msse -msse2 -msse3 -mssse3 -fstack-protector-strong --param=ssp-buffer-size=4 -pipe" 
+CFLAGS="-march=x86-64 -mtune=generic -mfpmath=sse -O2 -mmmx -msse -msse2 -msse3 -mssse3 -pipe" 
+# -fstack-protector-strong --param=ssp-buffer-size=4 
 CXXFLAGS="${CFLAGS}"
 ACCEPT_KEYWORDS="~amd64"
 CPU_FLAGS_X86="mmx mmxext sse sse2 sse3"
