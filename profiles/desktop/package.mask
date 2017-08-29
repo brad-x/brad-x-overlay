@@ -18,7 +18,7 @@ media-video/libav
 
 ## Openstack Deps
 # mask oslo-i8n for now 
-=dev-python/oslo-i18n-3.17.0
+#=dev-python/oslo-i18n-3.17.0
 =dev-python/cmd2-0.7.5
 
 # libpng-1.6.32 causing build failures for now
