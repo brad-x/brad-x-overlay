@@ -26,3 +26,6 @@ media-video/libav
 
 # GnuPG 2.2 is not compatible yet
 =app-crypt/gnupg-2.2.0
+
+# Doesn't build
+=net-misc/vinagre-3.22.0-r2
