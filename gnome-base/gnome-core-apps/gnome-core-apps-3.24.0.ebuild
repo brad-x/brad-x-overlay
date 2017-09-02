@@ -30,7 +30,6 @@ RDEPEND="
 
 	>=app-crypt/seahorse-3.20.0
 	>=app-editors/gedit-3.22.1
-	>=app-text/evince-${PV}
 	>=x11-terms/gnome-terminal-${PV}
 
 	>=gnome-extra/gnome-user-docs-${PV}
