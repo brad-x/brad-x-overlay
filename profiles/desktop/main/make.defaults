@@ -1,3 +1,1 @@
-USE="eds udisks networkmanager gconf dconf gtkstyle zeitgeist minizip"
-
-PORTAGE_BINHOST=http://packages.brad-x.com/desktop-gnome-x86_64/
+PORTAGE_BINHOST=http://packages.brad-x.com/desktop-main-x86_64/
