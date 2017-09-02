@@ -23,4 +23,6 @@ media-video/libav
 
 # libpng-1.6.32 causing build failures for now
 =media-libs/libpng-1.6.32
-## KDE
+
+# GnuPG 2.2 is not compatible yet
+=app-crypt/gnupg-2.2.0
