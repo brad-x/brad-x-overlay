@@ -24,8 +24,11 @@ media-video/libav
 # libpng-1.6.32 causing build failures for now
 =media-libs/libpng-1.6.32
 
-# GnuPG 2.2 is not compatible yet
+# GnuPG 2.2 breaks builds
 =app-crypt/gnupg-2.2.0
 
 # Doesn't build
 =net-misc/vinagre-3.22.0-r2
+
+# Poppler 0.58 breaks builds
+=app-text/poppler-0.58.0
