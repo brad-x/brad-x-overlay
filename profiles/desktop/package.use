@@ -11,6 +11,7 @@ dev-qt/qtwebkit printsupport
 app-misc/powerline bash doc extra man vim
 net-irc/hexchat plugin-sysinfo
 www-servers/apache -threads
+app-admin/keepassxc autotype 
 
 ## LibreOffice
 dev-libs/xmlsec nss
