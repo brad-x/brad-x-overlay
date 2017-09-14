@@ -21,7 +21,11 @@ PKGDIR="${PORTDIR}/packages"
 MAKEOPTS="-j16"
 
 ACCEPT_KEYWORDS="~amd64"
-ACCEPT_LICENSE="FraunhoferFDK"
+ACCEPT_LICENSE="*"
 
 VIDEO_CARDS=""
 QEMU_SOFTMMU_TARGETS=""
+
+EMERGE_DEFAULT_OPTS="--quiet-build=n -b"
+
+PORTAGE_BINHOST=http://packages.brad-x.com/windows-10-x86_64/
