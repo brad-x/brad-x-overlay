@@ -26,6 +26,10 @@ ACCEPT_LICENSE="*"
 VIDEO_CARDS=""
 QEMU_SOFTMMU_TARGETS=""
 
+PYTHON_SINGLE_TARGET="-python2_7 -python3_4 python3_5 -python3_6"
+PYTHON_TARGETS="python2_7 -python3_6 -python3_4 python3_5"
+USE_PYTHON="2.7 3.5"
+
 EMERGE_DEFAULT_OPTS="--quiet-build=n -b"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/windows-10-x86_64/

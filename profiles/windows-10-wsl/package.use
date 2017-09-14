@@ -5,3 +5,7 @@ dev-vcs/git -perl -gpg -python
 net-misc/iputils -caps -filecaps
 net-misc/spice-gtk gtk3 usbredir
 app-emulation/virt-manager gtk
+
+## Python 3.5 migration
+app-text/asciidoc python_single_target_python2_7
+
