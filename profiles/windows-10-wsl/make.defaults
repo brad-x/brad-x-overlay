@@ -10,7 +10,7 @@ CHOST="x86_64-pc-linux-gnu"
 # These are the USE and USE_EXPAND flags that were used for
 # buidling in addition to what is provided by the profile.
 
-USE="-gallium -llvm -perl -container-init -device-mapper -seccomp suid dbus python sqlite mmx sse sse2 mmxext icu idn gd lzma lzo webp libsamplerate tslib lame opus theora rdp spice t1lib djvu dvi daap thetvdb subtitles fat highlight map pcre16 ffmpeg aacplus bluray faac faad gsm ladspa librtmp openssl schroedinger x265 fftw dirac dts libass matroska raw jpeg2k threads vpx fdk mp3 x264"
+USE="-gallium -llvm -perl -container-init -device-mapper -seccomp suid dbus python sqlite mmx sse sse2 mmxext icu idn gd lzma lzo webp libsamplerate tslib lame opus theora rdp spice t1lib djvu dvi daap thetvdb subtitles fat highlight map pcre16 ffmpeg aacplus bluray faac faad gsm ladspa librtmp openssl schroedinger x265 fftw dirac dts libass matroska raw jpeg2k threads vpx fdk mp3 x264 jpeg tiff"
 
 CPU_FLAGS_X86="mmx sse sse2 mmxext"
 
