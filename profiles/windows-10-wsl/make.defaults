@@ -24,7 +24,7 @@ ACCEPT_KEYWORDS="~amd64"
 ACCEPT_LICENSE="*"
 
 VIDEO_CARDS=""
-QEMU_SOFTMMU_TARGETS=""
+QEMU_SOFTMMU_TARGETS="x86_64 ppc ppc64"
 
 PYTHON_SINGLE_TARGET="-python2_7 -python3_4 python3_5 -python3_6"
 PYTHON_TARGETS="python2_7 -python3_6 -python3_4 python3_5"
