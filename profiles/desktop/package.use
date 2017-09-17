@@ -13,6 +13,9 @@ net-irc/hexchat plugin-sysinfo
 www-servers/apache -threads
 app-admin/keepassxc autotype 
 
+## S3 command line requirement
+sys-apps/file -python
+
 ## LibreOffice
 dev-libs/xmlsec nss
 
