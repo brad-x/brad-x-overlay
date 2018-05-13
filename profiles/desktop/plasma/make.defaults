@@ -1,4 +1,4 @@
-USE="legacy-systray activities declarative dri kipi kwallet phonon plasma qml semantic-desktop widgets scripttools script otr farstream networkmanager dolphin sqlite sip scanner musicbrainz zip bittorrent mobile plucker pim"
+USE="legacy-systray activities declarative dri kipi kwallet phonon plasma qml semantic-desktop widgets scripttools script otr farstream networkmanager dolphin sqlite sip scanner musicbrainz zip bittorrent mobile plucker pim v4l user-session"
 
 INPUT_DEVICES="libinput"
 
