@@ -1,3 +1,7 @@
+# Phonon should use GStreamer now
+media-libs/phonon -vlc gstreamer
+
+
 # Work on removing this
 app-crypt/pinentry gnome-keyring
 
