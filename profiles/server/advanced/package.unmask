@@ -1,3 +1,4 @@
 >=net-libs/libotr-4.0.0
 >=x11-plugins/pidgin-otr-4.0.0
-<=net-fs/samba-4.5.0_rc1
+>=sys-libs/tevent-0.9.30
+net-fs/samba

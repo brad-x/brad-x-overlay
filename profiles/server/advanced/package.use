@@ -2,7 +2,7 @@ app-emulation/docker overlay
 
 sys-apps/portage git
 
-net-fs/samba gnutls -system-mitkrb5 addc ads addns aio client winbind
+net-fs/samba addc addns aio
 
 # No GNOME Extra Apps
 gnome-base/gnome -extras
@@ -39,14 +39,14 @@ sys-fs/cryptsetup -gcrypt
 
 # Misc
 app-emulation/libvirt virt-network -nfs -iscsi
-x11-drivers/ati-drivers qt4
-app-emulation/virtualbox qt4 vnc
+#x11-drivers/ati-drivers qt4
+#app-emulation/virtualbox qt4 vnc
 media-video/mplayer mpg123
 media-video/mjpegtools sdl
 sys-libs/zlib minizip
-media-sound/audacious -gtk gtk3
-media-plugins/audacious-plugins -gtk gtk3
-media-video/mkvtoolnix wxwidgets
+#media-sound/audacious -gtk gtk3
+#media-plugins/audacious-plugins -gtk gtk3
+#media-video/mkvtoolnix wxwidgets
 sci-astronomy/celestia -gnome
 net-libs/webkit-gtk gstreamer
 net-irc/hexchat plugin-checksum plugin-doat plugin-fishlim plugin-sysinfo
@@ -54,6 +54,13 @@ net-misc/spice-gtk -gstreamer
 media-video/handbrake -ffmpeg
 sys-auth/polkit -pam
 net-misc/remmina freerdp
+app-emulation/libvirt-glib introspection
+sys-libs/libosinfo introspection
+app-emulation/virt-manager gtk
+x11-libs/gtk+ X introspection
+x11-libs/cairo X
+#x11-libs/gdk-pixbuf X
+#net-misc/spice-gtk gtk3
 
 # Apache and PHP can't be threaded
 www-servers/apache -threads
@@ -78,6 +85,17 @@ media-video/kdenlive qt4 melt kdenlive semantic-desktop
 app-office/akonadi-server qt4 -mysql
 kde-base/kdepimlibs semantic-desktop
 
->=dev-db/mysql-5.6.26-r1 client-libs
+# OpenStack
 
-media-libs/libsdl X
+net-analyzer/rrdtool graph
+net-analyzer/cacti -vhosts
+net-dns/dnsmasq dhcp-tools 
+net-misc/openvswitch -modules
+sys-cluster/neutron mysql metadata server openvswitch l3 linuxbridge dhcp
+
+# OpenNebula
+
+dev-libs/xmlrpc-c abyss
+
+app-portage/layman python_targets_python2_7 python_targets_python3_3 python_targets_python3_4
+
