@@ -1,3 +1,0 @@
--gtk3
--introspection
--clutter
