@@ -21,7 +21,8 @@ dev-libs/xmlsec nss
 
 ## Docker
 sys-libs/libseccomp static-libs
-app-emulation/docker -device-mapper overlay
+app-emulation/docker -device-mapper -btrfs overlay
+app-emulation/containerd -btrfs
 
 ## For libvirt networking support
 app-emulation/libvirt virt-network
