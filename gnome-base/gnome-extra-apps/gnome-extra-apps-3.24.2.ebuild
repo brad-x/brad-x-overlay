@@ -22,7 +22,6 @@ RDEPEND="
 	>=media-video/cheese-3.24.0
 	>=app-arch/file-roller-3.24.1
 	>=gnome-extra/gnome-calculator-3.24.0
-	>=gnome-extra/gnome-calendar-${PV}
 	>=gnome-extra/gnome-characters-3.24.0
 	>=sys-apps/gnome-disk-utility-3.24.1
 	>=media-gfx/gnome-font-viewer-3.24.0
@@ -37,7 +36,6 @@ RDEPEND="
 
 	>=gnome-base/dconf-editor-${PV}
 	>=app-dicts/gnome-dictionary-3.24.1
-	>=mail-client/evolution-${PV}
 	>=net-analyzer/gnome-nettool-3.8.1
 	>=gnome-extra/gnome-tweak-tool-3.24.1
 	>=gnome-extra/nautilus-sendto-3.8.4
@@ -66,8 +64,6 @@ RDEPEND="
 	shotwell? ( >=media-gfx/shotwell-0.24 )
 	tracker? (
 		>=app-misc/tracker-1.12
-		>=media-gfx/gnome-photos-${PV}
-		>=media-sound/gnome-music-${PV} )
 "
 DEPEND=""
 S=${WORKDIR}
