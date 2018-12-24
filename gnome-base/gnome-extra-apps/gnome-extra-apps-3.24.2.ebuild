@@ -63,7 +63,7 @@ RDEPEND="
 	share? ( >=gnome-extra/gnome-user-share-3.18.3 )
 	shotwell? ( >=media-gfx/shotwell-0.24 )
 	tracker? (
-		>=app-misc/tracker-1.12
+		>=app-misc/tracker-1.12 )
 "
 DEPEND=""
 S=${WORKDIR}
