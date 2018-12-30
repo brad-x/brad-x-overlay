@@ -78,3 +78,6 @@ dev-libs/glib utils
 ## QT5 Webengine Requirements
 dev-qt/qtwebengine widgets
 dev-qt/qtwebchannel qml
+
+## app-misc/tracker needs either ffmpeg or gstreamer - exclusive choice
+app-misc/tracker -ffmpeg
