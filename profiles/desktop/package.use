@@ -81,3 +81,6 @@ dev-qt/qtwebchannel qml
 
 ## app-misc/tracker needs either ffmpeg or gstreamer - exclusive choice
 app-misc/tracker -ffmpeg
+
+## media-libs/libmiediaart needs either gtk or qt5, exclusive choice
+media-libs/libmediaart -gtk
