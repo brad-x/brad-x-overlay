@@ -1,25 +1,32 @@
+## Make Portage capable of pulling git repositories
 sys-apps/portage git
+## Don't install the gnome-extra-apps
 gnome-base/gnome -extras
-media-libs/libmediaart -gtk
-app-misc/tracker -ffmpeg
+#?media-libs/libmediaart -gtk
+#?app-misc/tracker -ffmpeg
 net-fs/samba gnutls -system-mitkrb5 addc ads client winbind
+## Basic system packages should not depend upon major web platforms
 net-libs/libproxy -webkit
-net-misc/spice-gtk gtk3 -gstreamer vala
+## Choose OpenSSL as the encryption method for cryptsetup
 sys-fs/cryptsetup -gcrypt -kernel openssl
-www-client/chromium hidpi widevine
-dev-qt/qtwebkit printsupport
+## Chromium should support Encrypted Content
+www-client/chromium widevine
+## Things we want powerline to be able to do by default:
 app-misc/powerline bash doc extra man vim
+## Enable hexchat sysinfo plugin (for fun)
 net-irc/hexchat plugin-sysinfo
+## Don't multithreat apache, breaks mod_php
 www-servers/apache -threads
+## We want autotype support in keepassxc
 app-admin/keepassxc autotype 
 
 ## S3 command line requirement
 sys-apps/file -python
 
-## LibreOffice
+## LibreOffice requirement
 dev-libs/xmlsec nss
 
-## Docker
+## Docker configuration
 sys-libs/libseccomp static-libs
 app-emulation/docker -device-mapper -btrfs overlay
 app-emulation/containerd -btrfs
@@ -32,41 +39,42 @@ net-dns/dnsmasq script
 >=dev-libs/libgit2-0.24.0 threads ssh
 >=dev-libs/libgit2-glib-0.24.0 ssh
 
-## Transmission QT
+## Transmission QT5
 net-p2p/transmission -gtk qt5
 
-## Firefox
+## Firefox requirements
 www-client/firefox -gstreamer-0 system-cairo system-jpeg system-libevent system-libvpx system-sqlite system-harfbuzz
 dev-db/sqlite secure-delete
 media-libs/libvpx postproc
 
 ## RPM / YUM
-app-arch/rpm lua -python_single_target_python3_5 python_single_target_python2_7
-## SANE Backends needs this
+app-arch/rpm lua python_single_target_python2_7
+
+## SANE Backends needs VALA support
 dev-libs/libgusb vala
 
 ## Mono 64bit only
 dev-lang/mono -abi_x86_32
 
 ## Clementine
-media-libs/libechonest qt4
-media-libs/libmygpo-qt qt4
+#media-libs/libechonest qt4
+#media-libs/libmygpo-qt qt4
 
-## Wayland
-net-misc/freerdp -gstreamer -wayland
-
-## Python 3.5 migration
+## app-text/asciidoc requires Python 2.7
 app-text/asciidoc python_single_target_python2_7
 
-# Mitigate QT4 dependencies
+## Mitigate QT4 dependencies
 media-libs/phonon -gstreamer vlc qt4
 media-libs/phonon-vlc qt4
 app-crypt/qca qt4
 sys-auth/polkit-qt qt4
 dev-libs/libdbusmenu-qt qt4
 
-# GIMP Support
+## GIMP Support
 media-libs/libmypaint gegl
 
 dev-libs/glib utils
 
+## QT5 Webengine Requirements
+dev-qt/qtwebengine widgets
+dev-qt/qtwebchannel qml

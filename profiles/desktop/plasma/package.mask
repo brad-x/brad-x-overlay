@@ -1,2 +1,0 @@
-#>=dev-util/cmake-3.9
->=dev-db/mariadb-10.2
