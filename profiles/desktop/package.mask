@@ -4,5 +4,5 @@ media-video/libav
 # broken for now
 =net-libs/gnome-online-accounts-3.28.0
 
-#Breaks builds?
-#=media-libs/fdk-aac-2.0.0
+#Breaks builds
+=media-libs/fdk-aac-2.0.0
