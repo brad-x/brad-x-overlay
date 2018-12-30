@@ -63,8 +63,8 @@ dev-lang/mono -abi_x86_32
 ## app-text/asciidoc requires Python 2.7
 app-text/asciidoc python_single_target_python2_7
 
-## Mitigate QT4 dependencies
-#media-libs/phonon gstreamer -vlc
+## Phonon should use gstreamer in all profiles
+media-libs/phonon gstreamer -vlc
 #media-libs/phonon-vlc -qt4
 #app-crypt/qca qt4
 #sys-auth/polkit-qt qt4
