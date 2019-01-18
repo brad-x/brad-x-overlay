@@ -12,3 +12,5 @@ media-libs/mesa gbm gles2
 =dev-qt/designer-4* -phonon
 kde-apps/okular -image-backend
 
+## Let GNOME applications build minimally on this profile
+dev-libs/folks eds
