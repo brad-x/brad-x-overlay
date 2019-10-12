@@ -1,3 +1,3 @@
-USE="eds udisks networkmanager gconf dconf gtkstyle zeitgeist minizip vala -previewer"
+USE="eds udisks networkmanager gconf dconf gtkstyle zeitgeist minizip vala user-session -previewer"
 
 PORTAGE_BINHOST=http://packages.brad-x.com/desktop-gnome-x86_64/
