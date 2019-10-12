@@ -18,6 +18,7 @@ cd /etc/portage/repos.conf/
 ## Override the gentoo portage tree - use ours as it's in sync with the BINHOSTS (theoretically)
 curl -LO http://packages.brad-x.com/brad-x.conf
 cd
+eselect profile set default/linux/amd64/17.1
 emerge eselect-repository -v
 eselect repository list
 eselect repository add brad-x-overlay git git://github.com/brad-x/brad-x-overlay.git
