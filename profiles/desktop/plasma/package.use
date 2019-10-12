@@ -14,3 +14,6 @@ kde-apps/okular -image-backend
 
 ## Let GNOME applications build minimally on this profile
 dev-libs/folks eds
+
+dev-libs/libical introspection
+sys-apps/xdg-desktop-portal screencast
