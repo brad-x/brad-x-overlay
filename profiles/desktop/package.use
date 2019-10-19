@@ -43,9 +43,10 @@ net-dns/dnsmasq script
 net-p2p/transmission -gtk qt5
 
 ## Firefox requirements
-www-client/firefox -gstreamer-0 system-cairo system-jpeg system-libevent system-libvpx system-sqlite system-harfbuzz
+www-client/firefox dbus gmp-autoupdate pulseaudio screenshot startup-notification clang hwaccel system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx system-sqlite
 dev-db/sqlite secure-delete
 media-libs/libvpx postproc
+sys-devel/llvm gold
 
 ## RPM / YUM
 app-arch/rpm lua python_single_target_python2_7
@@ -84,3 +85,6 @@ app-misc/tracker -ffmpeg
 
 ## media-libs/libmiediaart needs either gtk or qt5, exclusive choice
 media-libs/libmediaart -gtk
+
+## Fix libaom build error with SSE2 instructions
+media-libs/libaom -cpu_flags_x86_sse2

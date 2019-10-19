@@ -17,3 +17,6 @@ dev-libs/folks eds
 
 dev-libs/libical introspection
 sys-apps/xdg-desktop-portal screencast
+
+media-plugins/grilo-plugins tracker
+dev-libs/libgdata gnome-online-accounts
