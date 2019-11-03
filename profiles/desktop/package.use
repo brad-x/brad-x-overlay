@@ -44,6 +44,7 @@ net-p2p/transmission -gtk qt5
 
 ## Firefox requirements
 www-client/firefox dbus gmp-autoupdate pulseaudio screenshot startup-notification clang hwaccel system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx system-sqlite
+mail-client/thunderbird -system-libvpx
 dev-db/sqlite secure-delete
 media-libs/libvpx postproc
 sys-devel/llvm gold
@@ -88,3 +89,5 @@ media-libs/libmediaart -gtk
 
 ## Fix libaom build error with SSE2 instructions
 media-libs/libaom -cpu_flags_x86_sse2
+
+media-gfx/simple-scan -webp
