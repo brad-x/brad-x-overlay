@@ -16,6 +16,7 @@ kde-apps/okular -image-backend
 dev-libs/folks eds
 
 dev-libs/libical introspection
+media-libs/gegl introspection
 sys-apps/xdg-desktop-portal screencast
 
 media-plugins/grilo-plugins tracker
