@@ -37,7 +37,7 @@ src_install() {
 
     use kubectl-symlink && dosym k3s /usr/bin/kubectl
     insinto /etc/logrotate.d
-    newins "${FILESDIR}/${PN}.logrotated" "${PN}"
+    newins "${FILESDIR}/k3s.logrotated" "${PN}"
 }
 
 
