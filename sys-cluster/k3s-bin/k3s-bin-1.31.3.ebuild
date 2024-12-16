@@ -27,7 +27,7 @@ RDEPEND=""
 S=${WORKDIR}
 
 src_install() {
-    dobin "${PN}-${ARCH}"
+    dobin "${DISTDIR}/${PN}-${ARCH}"
     systemd_dounit "${FILESDIR}/${PN}.service"
 }
 
