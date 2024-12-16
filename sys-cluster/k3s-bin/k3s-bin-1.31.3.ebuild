@@ -26,7 +26,7 @@ RDEPEND=""
 S=${WORKDIR}
 
 src_install() {
-    doexe "${DISTDIR}/k3s-${ARCH}" k3s
+    doexe "${DISTDIR}/k3s-${ARCH}" /usr/bin/k3s
     systemd_dounit "${FILESDIR}/k3s.service"
 }
 
