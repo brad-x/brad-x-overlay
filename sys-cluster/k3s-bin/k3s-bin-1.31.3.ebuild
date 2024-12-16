@@ -28,7 +28,7 @@ S=${WORKDIR}
 src_install() {
     exeinto /usr/bin
     doexe "${DISTDIR}/${A}"
-	dosym "$targetdir/k3s-${ARCH}" /usr/bin/k3s
+	dosym "/usr/bin/k3s-${ARCH}" /usr/bin/k3s
     systemd_dounit "${FILESDIR}/k3s.service"
 }
 
