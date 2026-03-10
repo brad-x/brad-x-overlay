@@ -53,7 +53,21 @@ CMAKE_BUILD_TYPE="Release"
 CMAKE_USE_DIR="${S}/tensorflow/lite"
 
 src_prepare() {
-	# Apply patches from files/ if any.
+	# Several vendored deps fetched at configure time (neon2sse, gemmlowp)
+	# ship cmake_minimum_required(VERSION 2.8 ...) which CMake >=3.30
+	# rejects outright.  Inject CMAKE_POLICY_VERSION_MINIMUM at the very
+	# top of the TF Lite CMakeLists.txt so it is set in the parent scope
+	# BEFORE any FetchContent/add_subdirectory pulls in those ancient files.
+	# This is more reliable than -D on the command line because CMake
+	# processes cmake_minimum_required() in subdirectories before cache
+	# variables fully propagate through the eclass invocation.
+	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
+		"${S}/tensorflow/lite/CMakeLists.txt" || die "Failed to patch CMakeLists.txt"
+
+	# Also patch the C API CMakeLists for the second build pass.
+	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
+		"${S}/tensorflow/lite/c/CMakeLists.txt" || die "Failed to patch c/CMakeLists.txt"
+
 	cmake_src_prepare
 }
 
@@ -89,11 +103,6 @@ src_configure() {
 		# Prefer system flatbuffers if available.
 		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
 
-		# Several vendored deps (neon2sse, gemmlowp, etc.) have ancient
-		# cmake_minimum_required() versions that CMake >=3.30 rejects.
-		# Allow them to configure by setting the policy floor to 3.5.
-		-DCMAKE_POLICY_VERSION_MINIMUM=3.5
-
 		# Suppress noisy developer warnings from vendored FetchContent calls.
 		-Wno-dev
 	)
@@ -127,7 +136,6 @@ src_compile() {
 		-DCMAKE_INSTALL_LIBDIR="$(get_libdir)" \
 		-DCMAKE_C_FLAGS="${CFLAGS} ${tf_cxx_flags}" \
 		-DCMAKE_CXX_FLAGS="${CXXFLAGS} ${tf_cxx_flags}" \
-		-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
 		-Wno-dev \
 		-S "${S}/tensorflow/lite/c" \
 		-B "${c_build}" || die "C API cmake configure failed"
