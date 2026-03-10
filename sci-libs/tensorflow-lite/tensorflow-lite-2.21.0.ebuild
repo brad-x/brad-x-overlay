@@ -88,6 +88,14 @@ src_configure() {
 
 		# Prefer system flatbuffers if available.
 		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
+
+		# Several vendored deps (neon2sse, gemmlowp, etc.) have ancient
+		# cmake_minimum_required() versions that CMake >=3.30 rejects.
+		# Allow them to configure by setting the policy floor to 3.5.
+		-DCMAKE_POLICY_VERSION_MINIMUM=3.5
+
+		# Suppress noisy developer warnings from vendored FetchContent calls.
+		-Wno-dev
 	)
 
 	cmake_src_configure
@@ -119,6 +127,8 @@ src_compile() {
 		-DCMAKE_INSTALL_LIBDIR="$(get_libdir)" \
 		-DCMAKE_C_FLAGS="${CFLAGS} ${tf_cxx_flags}" \
 		-DCMAKE_CXX_FLAGS="${CXXFLAGS} ${tf_cxx_flags}" \
+		-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+		-Wno-dev \
 		-S "${S}/tensorflow/lite/c" \
 		-B "${c_build}" || die "C API cmake configure failed"
 

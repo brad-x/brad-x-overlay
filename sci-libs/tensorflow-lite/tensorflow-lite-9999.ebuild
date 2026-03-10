@@ -56,6 +56,11 @@ src_configure() {
 		-DTFLITE_ENABLE_NNAPI=OFF
 		-DCMAKE_FIND_PACKAGE_PREFER_CONFIG=ON
 		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
+
+		# Vendored deps have ancient cmake_minimum_required(); CMake >=3.30
+		# rejects anything below 3.5.  Set the policy floor accordingly.
+		-DCMAKE_POLICY_VERSION_MINIMUM=3.5
+		-Wno-dev
 	)
 
 	cmake_src_configure
@@ -90,6 +95,8 @@ src_compile() {
 		-DCMAKE_INSTALL_LIBDIR="$(get_libdir)" \
 		-DCMAKE_C_FLAGS="${CFLAGS} ${tf_cxx_flags}" \
 		-DCMAKE_CXX_FLAGS="${CXXFLAGS} ${tf_cxx_flags}" \
+		-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+		-Wno-dev \
 		-S "${S}/tensorflow/lite/c" \
 		-B "${c_build}" || die "C API cmake configure failed"
 
