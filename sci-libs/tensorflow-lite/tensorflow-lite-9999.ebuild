@@ -19,6 +19,7 @@ IUSE="gpu ruy test xnnpack"
 RESTRICT="!test? ( test )"
 
 # TF Lite's CMake build uses FetchContent to download vendored deps.
+# Flatbuffers uses the system package via a shim (see src_prepare).
 RESTRICT+=" network-sandbox"
 
 RDEPEND="
@@ -32,6 +33,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-build/cmake-3.16
 	app-arch/unzip
+	dev-libs/flatbuffers
 "
 
 CMAKE_BUILD_TYPE="Release"
@@ -42,6 +44,19 @@ src_prepare() {
 		"${S}/tensorflow/lite/CMakeLists.txt" || die
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/c/CMakeLists.txt" || die
+
+	# Use system flatbuffers instead of vendored copy.
+	cat > "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" <<-'EOF' || die
+		# Shim: use system-installed flatbuffers instead of vendored copy.
+		find_package(Flatbuffers CONFIG REQUIRED)
+
+		if(NOT FLATBUFFERS_FLATC_EXECUTABLE)
+		    find_program(FLATBUFFERS_FLATC_EXECUTABLE NAMES flatc REQUIRED)
+		endif()
+
+		set(FlatBuffers_FOUND TRUE)
+		set(FLATBUFFERS_FOUND TRUE)
+	EOF
 
 	cmake_src_prepare
 }
@@ -59,6 +74,7 @@ src_configure() {
 		-DTFLITE_ENABLE_BENCHMARK_MODEL=OFF
 		-DTFLITE_KERNEL_TEST=$(usex test ON OFF)
 		-DTFLITE_ENABLE_NNAPI=OFF
+		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
 		-Wno-dev
 	)
 

@@ -22,17 +22,18 @@ IUSE="gpu ruy test xnnpack"
 RESTRICT="!test? ( test )"
 
 # TF Lite's CMake build uses FetchContent at configure time to download and
-# build ~15 vendored dependencies (abseil-cpp, eigen, flatbuffers, farmhash,
-# fft2d, gemmlowp, ruy, cpuinfo, XNNPACK, pthreadpool, FP16, NEON_2_SSE,
-# ml_dtypes, etc.).  These are all statically linked into libtensorflow-lite.a.
-# Attempting to use system packages for a subset causes export-set and target
-# name mismatches that break the build.  Until upstream supports full system
-# dep usage, we let FetchContent manage everything.
+# build vendored dependencies (abseil-cpp, eigen, farmhash, fft2d, gemmlowp,
+# ruy, cpuinfo, XNNPACK, pthreadpool, FP16, NEON_2_SSE, ml_dtypes, etc.).
+# These are statically linked into libtensorflow-lite.a.
+# Flatbuffers is the exception — we use the system package via a shim
+# FindFlatBuffers.cmake written in src_prepare (avoids header collisions
+# with dev-libs/flatbuffers and reuses the system flatc compiler).
 RESTRICT+=" network-sandbox"
 
-# Vendored deps are statically linked into libtensorflow-lite.a, but
-# TF Lite headers #include <flatbuffers/...> so the system flatbuffers
-# headers must be available for consumers at compile time.
+# Vendored deps are statically linked into libtensorflow-lite.a, but:
+#   - TF Lite headers #include <flatbuffers/...> so consumers need the
+#     system flatbuffers headers at compile time.
+#   - The build uses system flatc for schema compilation.
 RDEPEND="
 	dev-libs/flatbuffers
 	gpu? (
@@ -44,6 +45,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-build/cmake-3.16
 	app-arch/unzip
+	dev-libs/flatbuffers
 "
 
 # Upstream defaults to Release and C++20.
@@ -64,6 +66,27 @@ src_prepare() {
 	# Also patch the C API CMakeLists for the second build pass.
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/c/CMakeLists.txt" || die "Failed to patch c/CMakeLists.txt"
+
+	# Replace TF Lite's custom FindFlatBuffers.cmake (which uses
+	# OverridableFetchContent to download and build flatbuffers from
+	# source) with a minimal shim that finds the system-installed
+	# dev-libs/flatbuffers package instead.
+	#
+	# TF Lite's CMakeLists.txt links against the flatbuffers::flatbuffers
+	# target, which is exactly what the system flatbuffers cmake config
+	# exports.  The system flatc binary is used for schema compilation.
+	cat > "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" <<-'EOF' || die
+		# Shim: use system-installed flatbuffers instead of vendored copy.
+		find_package(Flatbuffers CONFIG REQUIRED)
+
+		# Ensure flatc is available for schema compilation.
+		if(NOT FLATBUFFERS_FLATC_EXECUTABLE)
+		    find_program(FLATBUFFERS_FLATC_EXECUTABLE NAMES flatc REQUIRED)
+		endif()
+
+		set(FlatBuffers_FOUND TRUE)
+		set(FLATBUFFERS_FOUND TRUE)
+	EOF
 
 	cmake_src_prepare
 }
@@ -98,10 +121,10 @@ src_configure() {
 		# NNAPI is Android-only; always off on Linux.
 		-DTFLITE_ENABLE_NNAPI=OFF
 
-		# Let TF Lite's own Find modules in tools/cmake/modules/ handle
-		# ALL dependencies via FetchContent.  Do NOT set
-		# CMAKE_FIND_PACKAGE_PREFER_CONFIG — it causes target name
-		# mismatches (e.g. flatbuffers::flatbuffers not found).
+		# System flatbuffers: the custom FindFlatBuffers.cmake shim
+		# (written in src_prepare) finds the system package.  Point
+		# flatc at the system binary for schema compilation.
+		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
 
 		# Suppress noisy developer warnings from vendored FetchContent calls.
 		-Wno-dev
