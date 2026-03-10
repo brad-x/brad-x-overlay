@@ -25,9 +25,9 @@ RESTRICT="!test? ( test )"
 # build vendored dependencies (abseil-cpp, eigen, farmhash, fft2d, gemmlowp,
 # ruy, cpuinfo, XNNPACK, pthreadpool, FP16, NEON_2_SSE, ml_dtypes, etc.).
 # These are statically linked into libtensorflow-lite.a.
-# Flatbuffers is the exception — we remove TF Lite's custom Find module
-# in src_prepare so cmake uses the system package (avoids header collisions
-# with dev-libs/flatbuffers and reuses the system flatc compiler).
+# Flatbuffers is the exception — we replace TF Lite's custom Find module
+# in src_prepare with one that creates the target from system headers
+# (avoids header collisions and reuses the system flatc compiler).
 RESTRICT+=" network-sandbox"
 
 # Vendored deps are statically linked into libtensorflow-lite.a, but:
@@ -67,14 +67,50 @@ src_prepare() {
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/c/CMakeLists.txt" || die "Failed to patch c/CMakeLists.txt"
 
-	# Remove TF Lite's custom FindFlatBuffers.cmake (which downloads and
-	# builds flatbuffers from source via FetchContent).  Without a Find
-	# module, cmake's find_package(FlatBuffers REQUIRED) falls through to
-	# CONFIG mode and finds the system FlatBuffersConfig.cmake installed
-	# by dev-libs/flatbuffers at /usr/lib64/cmake/flatbuffers/.  This
-	# defines the flatbuffers::flatbuffers target that TF Lite links.
-	rm "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" || die
-	rm -f "${S}/tensorflow/lite/tools/cmake/modules/flatbuffers.cmake" 2>/dev/null
+	# Replace TF Lite's custom FindFlatBuffers.cmake (which downloads and
+	# builds flatbuffers from source via FetchContent) with a Find module
+	# that creates the flatbuffers::flatbuffers IMPORTED target from the
+	# system-installed dev-libs/flatbuffers headers and library.
+	#
+	# We cannot use find_package() inside a Find module for the same
+	# package (CMake recursion guard silently skips it), and CONFIG mode
+	# fallback doesn't work reliably because TF Lite's CMAKE_PREFIX_PATH
+	# includes its own tools/cmake/modules/ directory.  So we create the
+	# target manually from find_path/find_library results.
+	cat > "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" <<-'SHIMEOF' || die
+		# System flatbuffers: create flatbuffers::flatbuffers IMPORTED target.
+		find_path(FLATBUFFERS_INCLUDE_DIR flatbuffers/flatbuffers.h)
+		find_library(FLATBUFFERS_LIBRARY NAMES flatbuffers)
+		find_program(FLATBUFFERS_FLATC_EXECUTABLE NAMES flatc)
+
+		if(NOT FLATBUFFERS_INCLUDE_DIR)
+		    message(FATAL_ERROR "System flatbuffers headers not found. Install dev-libs/flatbuffers.")
+		endif()
+
+		if(NOT TARGET flatbuffers::flatbuffers)
+		    add_library(flatbuffers::flatbuffers INTERFACE IMPORTED)
+		    set_target_properties(flatbuffers::flatbuffers PROPERTIES
+		        INTERFACE_INCLUDE_DIRECTORIES "${FLATBUFFERS_INCLUDE_DIR}"
+		    )
+		    # Link the static library if present (some builds are header-only).
+		    if(FLATBUFFERS_LIBRARY)
+		        set_target_properties(flatbuffers::flatbuffers PROPERTIES
+		            INTERFACE_LINK_LIBRARIES "${FLATBUFFERS_LIBRARY}"
+		        )
+		    endif()
+		endif()
+
+		# Also make a plain "flatbuffers" alias if anything references it.
+		if(NOT TARGET flatbuffers)
+		    add_library(flatbuffers ALIAS flatbuffers::flatbuffers)
+		endif()
+
+		set(FLATBUFFERS_FOUND TRUE)
+		set(FlatBuffers_FOUND TRUE)
+		include(FindPackageHandleStandardArgs)
+		find_package_handle_standard_args(FlatBuffers DEFAULT_MSG
+		    FLATBUFFERS_INCLUDE_DIR)
+	SHIMEOF
 
 	cmake_src_prepare
 }
@@ -109,9 +145,8 @@ src_configure() {
 		# NNAPI is Android-only; always off on Linux.
 		-DTFLITE_ENABLE_NNAPI=OFF
 
-		# System flatbuffers: TF Lite's Find module was removed in
-		# src_prepare so cmake uses the system config package.  Point
-		# flatc at the system binary for schema compilation.
+		# System flatbuffers: the replaced FindFlatBuffers.cmake creates
+		# the target from system headers.  Point flatc at the system binary.
 		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
 
 		# Suppress noisy developer warnings from vendored FetchContent calls.

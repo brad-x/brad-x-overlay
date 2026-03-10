@@ -45,10 +45,39 @@ src_prepare() {
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/c/CMakeLists.txt" || die
 
-	# Remove TF Lite's custom FindFlatBuffers.cmake so cmake falls through
-	# to CONFIG mode and finds system dev-libs/flatbuffers directly.
-	rm "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" || die
-	rm -f "${S}/tensorflow/lite/tools/cmake/modules/flatbuffers.cmake" 2>/dev/null
+	# Replace TF Lite's custom FindFlatBuffers.cmake with one that creates
+	# the flatbuffers::flatbuffers IMPORTED target from system headers.
+	cat > "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" <<-'SHIMEOF' || die
+		find_path(FLATBUFFERS_INCLUDE_DIR flatbuffers/flatbuffers.h)
+		find_library(FLATBUFFERS_LIBRARY NAMES flatbuffers)
+		find_program(FLATBUFFERS_FLATC_EXECUTABLE NAMES flatc)
+
+		if(NOT FLATBUFFERS_INCLUDE_DIR)
+		    message(FATAL_ERROR "System flatbuffers headers not found.")
+		endif()
+
+		if(NOT TARGET flatbuffers::flatbuffers)
+		    add_library(flatbuffers::flatbuffers INTERFACE IMPORTED)
+		    set_target_properties(flatbuffers::flatbuffers PROPERTIES
+		        INTERFACE_INCLUDE_DIRECTORIES "${FLATBUFFERS_INCLUDE_DIR}"
+		    )
+		    if(FLATBUFFERS_LIBRARY)
+		        set_target_properties(flatbuffers::flatbuffers PROPERTIES
+		            INTERFACE_LINK_LIBRARIES "${FLATBUFFERS_LIBRARY}"
+		        )
+		    endif()
+		endif()
+
+		if(NOT TARGET flatbuffers)
+		    add_library(flatbuffers ALIAS flatbuffers::flatbuffers)
+		endif()
+
+		set(FLATBUFFERS_FOUND TRUE)
+		set(FlatBuffers_FOUND TRUE)
+		include(FindPackageHandleStandardArgs)
+		find_package_handle_standard_args(FlatBuffers DEFAULT_MSG
+		    FLATBUFFERS_INCLUDE_DIR)
+	SHIMEOF
 
 	cmake_src_prepare
 }
