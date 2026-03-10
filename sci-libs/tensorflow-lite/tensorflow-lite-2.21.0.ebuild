@@ -21,32 +21,30 @@ KEYWORDS="~amd64 ~arm64"
 IUSE="gpu ruy test xnnpack"
 RESTRICT="!test? ( test )"
 
-# TF Lite's CMake build uses FetchContent / ExternalProject at configure time
-# to download several vendored dependencies (farmhash, fft2d, gemmlowp, ruy,
-# cpuinfo, XNNPACK, pthreadpool, FP16, NEON_2_SSE, ml_dtypes) that are not
-# available as system packages in Gentoo.  Until each is packaged
-# independently, we must allow network access during the build.
+# TF Lite's CMake build uses FetchContent at configure time to download and
+# build ~15 vendored dependencies (abseil-cpp, eigen, flatbuffers, farmhash,
+# fft2d, gemmlowp, ruy, cpuinfo, XNNPACK, pthreadpool, FP16, NEON_2_SSE,
+# ml_dtypes, etc.).  These are all statically linked into libtensorflow-lite.a.
+# Attempting to use system packages for a subset causes export-set and target
+# name mismatches that break the build.  Until upstream supports full system
+# dep usage, we let FetchContent manage everything.
 RESTRICT+=" network-sandbox"
 
-# System-level dependencies that TF Lite can find via find_package().
+# No RDEPEND on vendored libraries — they are statically linked into the
+# TF Lite archive.  Runtime deps are only needed for optional features.
 RDEPEND="
-	dev-cpp/abseil-cpp:=
-	dev-libs/flatbuffers:=
-	dev-cpp/eigen:3
-"
-DEPEND="
-	${RDEPEND}
 	gpu? (
 		virtual/opencl
 		media-libs/mesa[egl(+)]
 	)
 "
+DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-build/cmake-3.16
 	app-arch/unzip
 "
 
-# Upstream's build defaults to Release and C++20.
+# Upstream defaults to Release and C++20.
 CMAKE_BUILD_TYPE="Release"
 
 # Point cmake at the tflite subdirectory, not the top-level TF CMakeLists.
@@ -56,11 +54,8 @@ src_prepare() {
 	# Several vendored deps fetched at configure time (neon2sse, gemmlowp)
 	# ship cmake_minimum_required(VERSION 2.8 ...) which CMake >=3.30
 	# rejects outright.  Inject CMAKE_POLICY_VERSION_MINIMUM at the very
-	# top of the TF Lite CMakeLists.txt so it is set in the parent scope
-	# BEFORE any FetchContent/add_subdirectory pulls in those ancient files.
-	# This is more reliable than -D on the command line because CMake
-	# processes cmake_minimum_required() in subdirectories before cache
-	# variables fully propagate through the eclass invocation.
+	# top of the TF Lite CMakeLists.txt so it is set BEFORE any
+	# FetchContent/add_subdirectory pulls in those ancient files.
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/CMakeLists.txt" || die "Failed to patch CMakeLists.txt"
 
@@ -79,15 +74,19 @@ src_configure() {
 		# Required: point TF Lite's CMakeLists at the TF source root.
 		-DTENSORFLOW_SOURCE_DIR="${S}"
 
-		# Activate the install() rules so cmake --install works.
-		-DTFLITE_ENABLE_INSTALL=ON
+		# Do NOT enable TFLITE_ENABLE_INSTALL.  It creates an
+		# install(EXPORT) that references FetchContent targets (ruy,
+		# flatbuffers, etc.) not present in the export set, causing a
+		# fatal CMake error.  We do manual installation in src_install.
+		-DTFLITE_ENABLE_INSTALL=OFF
 
 		# Feature toggles.
 		-DTFLITE_ENABLE_XNNPACK=$(usex xnnpack ON OFF)
 		-DTFLITE_ENABLE_GPU=$(usex gpu ON OFF)
 		-DTFLITE_ENABLE_RUY=$(usex ruy ON OFF)
 
-		# Disable example binaries to speed up the build.
+		# Disable example binaries — avoids protobuf dependency and
+		# speeds up the build.
 		-DTFLITE_ENABLE_LABEL_IMAGE=OFF
 		-DTFLITE_ENABLE_BENCHMARK_MODEL=OFF
 
@@ -97,11 +96,10 @@ src_configure() {
 		# NNAPI is Android-only; always off on Linux.
 		-DTFLITE_ENABLE_NNAPI=OFF
 
-		# Use system abseil, eigen, flatbuffers.
-		-DCMAKE_FIND_PACKAGE_PREFER_CONFIG=ON
-
-		# Prefer system flatbuffers if available.
-		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
+		# Let TF Lite's own Find modules in tools/cmake/modules/ handle
+		# ALL dependencies via FetchContent.  Do NOT set
+		# CMAKE_FIND_PACKAGE_PREFER_CONFIG — it causes target name
+		# mismatches (e.g. flatbuffers::flatbuffers not found).
 
 		# Suppress noisy developer warnings from vendored FetchContent calls.
 		-Wno-dev
@@ -148,13 +146,14 @@ src_test() {
 }
 
 src_install() {
-	# Install the main static library, headers, and CMake config files.
-	cmake_src_install
+	# Since TFLITE_ENABLE_INSTALL=OFF, we do manual installation.
+	local build_dir="${BUILD_DIR}"
 
-	# Install the C API shared library.
+	# --- Static library ---
+	dolib.a "${build_dir}/libtensorflow-lite.a"
+
+	# --- C API shared library ---
 	local c_build="${WORKDIR}/tflite_c_build"
-
-	# The C API build produces libtensorflowlite_c.so (or similar).
 	local clib
 	for clib in \
 		"${c_build}/libtensorflowlite_c.so" \
@@ -165,39 +164,57 @@ src_install() {
 		fi
 	done
 
-	# Install public C API headers that consumers need.
-	# These are the officially documented public headers.
-	local hdr
-	for hdr in \
-		c/c_api.h \
-		c/c_api_experimental.h \
-		c/c_api_types.h \
-		c/common.h \
-	; do
-		if [[ -f "${S}/tensorflow/lite/${hdr}" ]]; then
-			insinto "/usr/include/tensorflow/lite/$(dirname "${hdr}")"
-			doins "${S}/tensorflow/lite/${hdr}"
-		fi
-	done
+	# --- Headers ---
+	# Install the full tensorflow/lite header tree.  Consumers need headers
+	# from core/, c/, delegates/, kernels/internal/, schema/, etc.
+	cd "${S}" || die
+	local header
+	while IFS= read -r -d '' header; do
+		local reldir
+		reldir="$(dirname "${header}")"
+		insinto "/usr/include/${reldir}"
+		doins "${header}"
+	done < <(find tensorflow/lite -name '*.h' \
+		-not -path '*/test*' \
+		-not -path '*/example*' \
+		-not -path '*/benchmark*' \
+		-not -path '*_test.h' \
+		-not -path '*/java/*' \
+		-not -path '*/objc/*' \
+		-not -path '*/swift/*' \
+		-not -path '*/python/*' \
+		-not -path '*/ios/*' \
+		-not -path '*/g3doc/*' \
+		-print0)
 
-	# Also install private headers that the public C headers transitively include.
-	local dir
-	for dir in \
-		core/c \
-		core/async/c \
-		core/async/interop/c \
-	; do
-		if [[ -d "${S}/tensorflow/lite/${dir}" ]]; then
-			insinto "/usr/include/tensorflow/lite/${dir}"
-			doins "${S}/tensorflow/lite/${dir}"/*.h 2>/dev/null
-		fi
-	done
-
-	# Install the top-level builtin_ops header.
-	if [[ -f "${S}/tensorflow/lite/core/builtin_ops.h" ]]; then
-		insinto "/usr/include/tensorflow/lite/core"
-		doins "${S}/tensorflow/lite/core/builtin_ops.h"
+	# Install vendored flatbuffers headers that the build downloaded,
+	# since TF Lite public headers include them.
+	if [[ -d "${build_dir}/flatbuffers/include/flatbuffers" ]]; then
+		insinto /usr/include/flatbuffers
+		doins "${build_dir}/flatbuffers/include/flatbuffers"/*.h
 	fi
+
+	# Install the generated schema_generated.h if present.
+	local schema_gen="${build_dir}/schema_generated.h"
+	if [[ -f "${schema_gen}" ]]; then
+		insinto /usr/include/tensorflow/lite/schema
+		doins "${schema_gen}"
+	fi
+
+	# --- pkg-config file ---
+	cat > "${T}/tensorflow-lite.pc" <<-EOF || die
+	prefix=${EPREFIX}/usr
+	libdir=\${prefix}/$(get_libdir)
+	includedir=\${prefix}/include
+
+	Name: TensorFlow Lite
+	Description: Lightweight ML inference framework
+	Version: ${PV}
+	Libs: -L\${libdir} -ltensorflow-lite
+	Cflags: -I\${includedir}
+	EOF
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${T}/tensorflow-lite.pc"
 
 	einstalldocs
 }
@@ -209,11 +226,10 @@ pkg_postinst() {
 	elog "  - Static library: libtensorflow-lite.a"
 	elog "  - C shared library: libtensorflowlite_c.so"
 	elog "  - Headers: /usr/include/tensorflow/lite/"
-	elog "  - CMake config: tensorflow-liteConfig.cmake"
+	elog "  - pkg-config: tensorflow-lite.pc"
 	elog ""
-	elog "To use in a CMake project:"
-	elog "  find_package(tensorflow-lite REQUIRED)"
-	elog "  target_link_libraries(myapp tensorflow-lite)"
+	elog "To link (pkg-config):"
+	elog "  pkg-config --cflags --libs tensorflow-lite"
 	elog ""
 	elog "Or link the C API directly:"
 	elog "  -ltensorflowlite_c"

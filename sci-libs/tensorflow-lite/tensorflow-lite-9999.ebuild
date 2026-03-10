@@ -18,21 +18,16 @@ SLOT="0"
 IUSE="gpu ruy test xnnpack"
 RESTRICT="!test? ( test )"
 
-# TF Lite's CMake build downloads vendored deps at configure time.
+# TF Lite's CMake build uses FetchContent to download vendored deps.
 RESTRICT+=" network-sandbox"
 
 RDEPEND="
-	dev-cpp/abseil-cpp:=
-	dev-libs/flatbuffers:=
-	dev-cpp/eigen:3
-"
-DEPEND="
-	${RDEPEND}
 	gpu? (
 		virtual/opencl
 		media-libs/mesa[egl(+)]
 	)
 "
+DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-build/cmake-3.16
 	app-arch/unzip
@@ -41,12 +36,21 @@ BDEPEND="
 CMAKE_BUILD_TYPE="Release"
 CMAKE_USE_DIR="${S}/tensorflow/lite"
 
+src_prepare() {
+	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
+		"${S}/tensorflow/lite/CMakeLists.txt" || die
+	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
+		"${S}/tensorflow/lite/c/CMakeLists.txt" || die
+
+	cmake_src_prepare
+}
+
 src_configure() {
 	append-flags -fPIC
 
 	local mycmakeargs=(
 		-DTENSORFLOW_SOURCE_DIR="${S}"
-		-DTFLITE_ENABLE_INSTALL=ON
+		-DTFLITE_ENABLE_INSTALL=OFF
 		-DTFLITE_ENABLE_XNNPACK=$(usex xnnpack ON OFF)
 		-DTFLITE_ENABLE_GPU=$(usex gpu ON OFF)
 		-DTFLITE_ENABLE_RUY=$(usex ruy ON OFF)
@@ -54,12 +58,6 @@ src_configure() {
 		-DTFLITE_ENABLE_BENCHMARK_MODEL=OFF
 		-DTFLITE_KERNEL_TEST=$(usex test ON OFF)
 		-DTFLITE_ENABLE_NNAPI=OFF
-		-DCMAKE_FIND_PACKAGE_PREFER_CONFIG=ON
-		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
-
-		# Vendored deps have ancient cmake_minimum_required(); CMake >=3.30
-		# rejects anything below 3.5.  Set the policy floor accordingly.
-		-DCMAKE_POLICY_VERSION_MINIMUM=3.5
 		-Wno-dev
 	)
 
@@ -73,7 +71,6 @@ src_compile() {
 	local c_build="${WORKDIR}/tflite_c_build"
 	mkdir -p "${c_build}" || die
 
-	# Attempt to extract version from the source tree.
 	local tf_version
 	tf_version=$(sed -n 's/.*TF_VERSION = "\([^"]*\)".*/\1/p' \
 		"${S}/tensorflow/tf_version.bzl" 2>/dev/null)
@@ -95,7 +92,6 @@ src_compile() {
 		-DCMAKE_INSTALL_LIBDIR="$(get_libdir)" \
 		-DCMAKE_C_FLAGS="${CFLAGS} ${tf_cxx_flags}" \
 		-DCMAKE_CXX_FLAGS="${CXXFLAGS} ${tf_cxx_flags}" \
-		-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
 		-Wno-dev \
 		-S "${S}/tensorflow/lite/c" \
 		-B "${c_build}" || die "C API cmake configure failed"
@@ -104,7 +100,9 @@ src_compile() {
 }
 
 src_install() {
-	cmake_src_install
+	local build_dir="${BUILD_DIR}"
+
+	dolib.a "${build_dir}/libtensorflow-lite.a"
 
 	local c_build="${WORKDIR}/tflite_c_build"
 	local clib
@@ -117,35 +115,50 @@ src_install() {
 		fi
 	done
 
-	local hdr
-	for hdr in \
-		c/c_api.h \
-		c/c_api_experimental.h \
-		c/c_api_types.h \
-		c/common.h \
-	; do
-		if [[ -f "${S}/tensorflow/lite/${hdr}" ]]; then
-			insinto "/usr/include/tensorflow/lite/$(dirname "${hdr}")"
-			doins "${S}/tensorflow/lite/${hdr}"
-		fi
-	done
+	cd "${S}" || die
+	local header
+	while IFS= read -r -d '' header; do
+		local reldir
+		reldir="$(dirname "${header}")"
+		insinto "/usr/include/${reldir}"
+		doins "${header}"
+	done < <(find tensorflow/lite -name '*.h' \
+		-not -path '*/test*' \
+		-not -path '*/example*' \
+		-not -path '*/benchmark*' \
+		-not -path '*_test.h' \
+		-not -path '*/java/*' \
+		-not -path '*/objc/*' \
+		-not -path '*/swift/*' \
+		-not -path '*/python/*' \
+		-not -path '*/ios/*' \
+		-not -path '*/g3doc/*' \
+		-print0)
 
-	local dir
-	for dir in \
-		core/c \
-		core/async/c \
-		core/async/interop/c \
-	; do
-		if [[ -d "${S}/tensorflow/lite/${dir}" ]]; then
-			insinto "/usr/include/tensorflow/lite/${dir}"
-			doins "${S}/tensorflow/lite/${dir}"/*.h 2>/dev/null
-		fi
-	done
-
-	if [[ -f "${S}/tensorflow/lite/core/builtin_ops.h" ]]; then
-		insinto "/usr/include/tensorflow/lite/core"
-		doins "${S}/tensorflow/lite/core/builtin_ops.h"
+	if [[ -d "${build_dir}/flatbuffers/include/flatbuffers" ]]; then
+		insinto /usr/include/flatbuffers
+		doins "${build_dir}/flatbuffers/include/flatbuffers"/*.h
 	fi
+
+	local schema_gen="${build_dir}/schema_generated.h"
+	if [[ -f "${schema_gen}" ]]; then
+		insinto /usr/include/tensorflow/lite/schema
+		doins "${schema_gen}"
+	fi
+
+	cat > "${T}/tensorflow-lite.pc" <<-EOF || die
+	prefix=${EPREFIX}/usr
+	libdir=\${prefix}/$(get_libdir)
+	includedir=\${prefix}/include
+
+	Name: TensorFlow Lite
+	Description: Lightweight ML inference framework
+	Version: ${PV}
+	Libs: -L\${libdir} -ltensorflow-lite
+	Cflags: -I\${includedir}
+	EOF
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${T}/tensorflow-lite.pc"
 
 	einstalldocs
 }
@@ -153,9 +166,8 @@ src_install() {
 pkg_postinst() {
 	elog "TensorFlow Lite (live) has been installed."
 	elog ""
-	elog "To use in a CMake project:"
-	elog "  find_package(tensorflow-lite REQUIRED)"
-	elog "  target_link_libraries(myapp tensorflow-lite)"
+	elog "To link: pkg-config --cflags --libs tensorflow-lite"
+	elog "C API:   -ltensorflowlite_c"
 	if use gpu; then
 		elog ""
 		elog "GPU delegate (OpenCL) is enabled."
