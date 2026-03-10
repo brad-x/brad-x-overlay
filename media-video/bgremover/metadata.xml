@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<!-- Replace with your own maintainer info for overlay use -->
+		<email>maintainer@example.com</email>
+		<name>Your Name</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">yath/bgremover</remote-id>
+		<maintainer>
+			<email>yath@yath.de</email>
+			<name>Sebastian Schmidt</name>
+		</maintainer>
+	</upstream>
+	<longdescription lang="en">
+		A Video4Linux proxy that masks a webcam's background using TensorFlow
+		Lite and the DeepLab v3 semantic segmentation model. It reads frames
+		from a real webcam, performs person segmentation, replaces the
+		background with a solid color or image, and writes the result to a
+		v4l2loopback virtual camera device for use in video conferencing
+		applications.
+	</longdescription>
+	<use>
+		<flag name="opengl">
+			Enable the TensorFlow Lite OpenGL GPU delegate for
+			hardware-accelerated inference via EGL/OpenGL.
+		</flag>
+	</use>
+</pkgmetadata>

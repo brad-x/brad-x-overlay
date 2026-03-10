@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<!-- Replace with your own maintainer info for overlay use -->
+		<email>maintainer@example.com</email>
+		<name>Your Name</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">tensorflow/tensorflow</remote-id>
+		<bugs-to>https://github.com/tensorflow/tensorflow/issues</bugs-to>
+		<doc>https://www.tensorflow.org/lite/guide/build_cmake</doc>
+	</upstream>
+	<longdescription lang="en">
+		TensorFlow Lite (also known as LiteRT) is a lightweight inference
+		framework for on-device machine learning. It provides APIs in C and
+		C++ for loading and running .tflite models produced by the TensorFlow
+		model converter. The runtime supports CPU inference on x86_64 and
+		ARM64, with optional XNNPACK acceleration and an OpenCL-based GPU
+		delegate.
+
+		This package builds only the TF Lite inference library and C API
+		from the main TensorFlow source tree using the upstream CMake build
+		system. It does not include the full TensorFlow framework, Python
+		bindings, or training infrastructure.
+
+		NOTE: TF Lite is being succeeded by the LiteRT project at
+		https://github.com/google-ai-edge/LiteRT. Future versions may
+		migrate to that repository.
+	</longdescription>
+	<use>
+		<flag name="gpu">
+			Build the OpenCL GPU delegate for hardware-accelerated
+			inference on GPUs supporting OpenCL 1.2 or later. Experimental;
+			primarily tested on NVIDIA and select mobile GPUs.
+		</flag>
+		<flag name="ruy">
+			Use the RUY matrix multiplication library instead of the
+			default Eigen-based GEMM backend. RUY is optimized for ARM
+			but also works on x86_64.
+		</flag>
+		<flag name="xnnpack">
+			Enable the XNNPACK delegate for optimized floating-point and
+			quantized inference on CPU. Enabled by default upstream.
+		</flag>
+	</use>
+</pkgmetadata>
