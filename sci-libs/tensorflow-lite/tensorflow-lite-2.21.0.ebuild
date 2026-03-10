@@ -30,9 +30,11 @@ RESTRICT="!test? ( test )"
 # dep usage, we let FetchContent manage everything.
 RESTRICT+=" network-sandbox"
 
-# No RDEPEND on vendored libraries — they are statically linked into the
-# TF Lite archive.  Runtime deps are only needed for optional features.
+# Vendored deps are statically linked into libtensorflow-lite.a, but
+# TF Lite headers #include <flatbuffers/...> so the system flatbuffers
+# headers must be available for consumers at compile time.
 RDEPEND="
+	dev-libs/flatbuffers
 	gpu? (
 		virtual/opencl
 		media-libs/mesa[egl(+)]
@@ -205,18 +207,8 @@ src_install() {
 		-not -path '*/g3doc/*' \
 		-print0)
 
-	# Install vendored flatbuffers headers that the build downloaded,
-	# since TF Lite public headers include them.
-	local fb_include
-	fb_include=$(find "${build_dir}" "${WORKDIR}" -maxdepth 5 \
-		-path '*/flatbuffers/include/flatbuffers/flatbuffers.h' \
-		-print -quit 2>/dev/null)
-	if [[ -n "${fb_include}" ]]; then
-		local fb_dir
-		fb_dir="$(dirname "${fb_include}")"
-		insinto /usr/include/flatbuffers
-		doins "${fb_dir}"/*.h
-	fi
+	# Do NOT install vendored flatbuffers headers — they collide with
+	# dev-libs/flatbuffers which is a runtime dependency for the headers.
 
 	# Install the generated schema_generated.h if present.
 	local schema_gen

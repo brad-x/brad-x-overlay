@@ -22,6 +22,7 @@ RESTRICT="!test? ( test )"
 RESTRICT+=" network-sandbox"
 
 RDEPEND="
+	dev-libs/flatbuffers
 	gpu? (
 		virtual/opencl
 		media-libs/mesa[egl(+)]
@@ -151,16 +152,8 @@ src_install() {
 		-not -path '*/g3doc/*' \
 		-print0)
 
-	local fb_include
-	fb_include=$(find "${build_dir}" "${WORKDIR}" -maxdepth 5 \
-		-path '*/flatbuffers/include/flatbuffers/flatbuffers.h' \
-		-print -quit 2>/dev/null)
-	if [[ -n "${fb_include}" ]]; then
-		local fb_dir
-		fb_dir="$(dirname "${fb_include}")"
-		insinto /usr/include/flatbuffers
-		doins "${fb_dir}"/*.h
-	fi
+	# Do NOT install vendored flatbuffers headers — they collide with
+	# dev-libs/flatbuffers which is a runtime dependency for the headers.
 
 	local schema_gen
 	schema_gen=$(find "${build_dir}" -maxdepth 3 \
