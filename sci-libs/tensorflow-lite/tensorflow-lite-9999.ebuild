@@ -18,12 +18,11 @@ SLOT="0"
 IUSE="gpu ruy test xnnpack"
 RESTRICT="!test? ( test )"
 
-# TF Lite's CMake build uses FetchContent to download vendored deps.
-# Flatbuffers uses the system package via a shim (see src_prepare).
+# TF Lite's CMake build uses FetchContent to download ALL vendored deps.
+# Flatbuffers MUST be vendored (version-specific static_assert in headers).
 RESTRICT+=" network-sandbox"
 
 RDEPEND="
-	dev-libs/flatbuffers
 	gpu? (
 		virtual/opencl
 		media-libs/mesa[egl(+)]
@@ -33,7 +32,6 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-build/cmake-3.16
 	app-arch/unzip
-	dev-libs/flatbuffers
 "
 
 CMAKE_BUILD_TYPE="Release"
@@ -44,40 +42,6 @@ src_prepare() {
 		"${S}/tensorflow/lite/CMakeLists.txt" || die
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/c/CMakeLists.txt" || die
-
-	# Replace TF Lite's custom FindFlatBuffers.cmake with one that creates
-	# the flatbuffers::flatbuffers IMPORTED target from system headers.
-	cat > "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" <<-'SHIMEOF' || die
-		find_path(FLATBUFFERS_INCLUDE_DIR flatbuffers/flatbuffers.h)
-		find_library(FLATBUFFERS_LIBRARY NAMES flatbuffers)
-		find_program(FLATBUFFERS_FLATC_EXECUTABLE NAMES flatc)
-
-		if(NOT FLATBUFFERS_INCLUDE_DIR)
-		    message(FATAL_ERROR "System flatbuffers headers not found.")
-		endif()
-
-		if(NOT TARGET flatbuffers::flatbuffers)
-		    add_library(flatbuffers::flatbuffers INTERFACE IMPORTED)
-		    set_target_properties(flatbuffers::flatbuffers PROPERTIES
-		        INTERFACE_INCLUDE_DIRECTORIES "${FLATBUFFERS_INCLUDE_DIR}"
-		    )
-		    if(FLATBUFFERS_LIBRARY)
-		        set_target_properties(flatbuffers::flatbuffers PROPERTIES
-		            INTERFACE_LINK_LIBRARIES "${FLATBUFFERS_LIBRARY}"
-		        )
-		    endif()
-		endif()
-
-		if(NOT TARGET flatbuffers)
-		    add_library(flatbuffers ALIAS flatbuffers::flatbuffers)
-		endif()
-
-		set(FLATBUFFERS_FOUND TRUE)
-		set(FlatBuffers_FOUND TRUE)
-		include(FindPackageHandleStandardArgs)
-		find_package_handle_standard_args(FlatBuffers DEFAULT_MSG
-		    FLATBUFFERS_INCLUDE_DIR)
-	SHIMEOF
 
 	cmake_src_prepare
 }
@@ -95,7 +59,6 @@ src_configure() {
 		-DTFLITE_ENABLE_BENCHMARK_MODEL=OFF
 		-DTFLITE_KERNEL_TEST=$(usex test ON OFF)
 		-DTFLITE_ENABLE_NNAPI=OFF
-		-DFLATBUFFERS_FLATC_EXECUTABLE="${BROOT}/usr/bin/flatc"
 		-Wno-dev
 	)
 
@@ -190,7 +153,7 @@ src_install() {
 		-print0)
 
 	# Do NOT install vendored flatbuffers headers — they collide with
-	# dev-libs/flatbuffers which is a runtime dependency for the headers.
+	# dev-libs/flatbuffers and the vendored version is incompatible anyway.
 
 	local schema_gen
 	schema_gen=$(find "${build_dir}" -maxdepth 3 \
