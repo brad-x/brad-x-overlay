@@ -45,18 +45,10 @@ src_prepare() {
 	sed -i '1i set(CMAKE_POLICY_VERSION_MINIMUM "3.5" CACHE STRING "Compat floor for vendored deps")' \
 		"${S}/tensorflow/lite/c/CMakeLists.txt" || die
 
-	# Use system flatbuffers instead of vendored copy.
-	cat > "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" <<-'EOF' || die
-		# Shim: use system-installed flatbuffers instead of vendored copy.
-		find_package(Flatbuffers CONFIG REQUIRED)
-
-		if(NOT FLATBUFFERS_FLATC_EXECUTABLE)
-		    find_program(FLATBUFFERS_FLATC_EXECUTABLE NAMES flatc REQUIRED)
-		endif()
-
-		set(FlatBuffers_FOUND TRUE)
-		set(FLATBUFFERS_FOUND TRUE)
-	EOF
+	# Remove TF Lite's custom FindFlatBuffers.cmake so cmake falls through
+	# to CONFIG mode and finds system dev-libs/flatbuffers directly.
+	rm "${S}/tensorflow/lite/tools/cmake/modules/FindFlatBuffers.cmake" || die
+	rm -f "${S}/tensorflow/lite/tools/cmake/modules/flatbuffers.cmake" 2>/dev/null
 
 	cmake_src_prepare
 }
