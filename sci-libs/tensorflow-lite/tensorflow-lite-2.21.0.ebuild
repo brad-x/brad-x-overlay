@@ -111,6 +111,11 @@ src_configure() {
 src_compile() {
 	cmake_src_compile
 
+	# Show what the main build produced (for debugging install issues).
+	einfo "Main build artifacts in BUILD_DIR=${BUILD_DIR}:"
+	find "${BUILD_DIR}" -maxdepth 2 \( -name '*.a' -o -name '*.so' \) \
+		2>/dev/null | while read -r f; do einfo "  ${f}"; done
+
 	# Additionally build the C API shared library.
 	# TF Lite's C API has its own CMakeLists.txt under tensorflow/lite/c/.
 	einfo "Building TF Lite C API shared library..."
@@ -150,19 +155,32 @@ src_install() {
 	local build_dir="${BUILD_DIR}"
 
 	# --- Static library ---
-	dolib.a "${build_dir}/libtensorflow-lite.a"
+	# The cmake eclass sets BUILD_DIR but the actual library location can
+	# vary.  Search the build tree to find it reliably.
+	local tflite_a
+	tflite_a=$(find "${build_dir}" "${WORKDIR}" -maxdepth 3 \
+		-name 'libtensorflow-lite.a' -print -quit 2>/dev/null)
+	if [[ -z "${tflite_a}" ]]; then
+		# Debug: show what IS in the build dir.
+		eerror "libtensorflow-lite.a not found.  BUILD_DIR contents:"
+		find "${build_dir}" -maxdepth 2 -name '*.a' -o -name '*.so' 2>/dev/null | \
+			while read -r f; do eerror "  ${f}"; done
+		die "libtensorflow-lite.a not found in build tree"
+	fi
+	einfo "Found static library: ${tflite_a}"
+	dolib.a "${tflite_a}"
 
 	# --- C API shared library ---
 	local c_build="${WORKDIR}/tflite_c_build"
 	local clib
-	for clib in \
-		"${c_build}/libtensorflowlite_c.so" \
-		"${c_build}/libtensorflowlite_c.dylib" \
-	; do
-		if [[ -f "${clib}" ]]; then
-			dolib.so "${clib}"
-		fi
-	done
+	clib=$(find "${c_build}" -maxdepth 3 \
+		-name 'libtensorflowlite_c.so' -print -quit 2>/dev/null)
+	if [[ -n "${clib}" ]]; then
+		einfo "Found C API library: ${clib}"
+		dolib.so "${clib}"
+	else
+		ewarn "libtensorflowlite_c.so not found — C API not installed."
+	fi
 
 	# --- Headers ---
 	# Install the full tensorflow/lite header tree.  Consumers need headers
@@ -189,14 +207,22 @@ src_install() {
 
 	# Install vendored flatbuffers headers that the build downloaded,
 	# since TF Lite public headers include them.
-	if [[ -d "${build_dir}/flatbuffers/include/flatbuffers" ]]; then
+	local fb_include
+	fb_include=$(find "${build_dir}" "${WORKDIR}" -maxdepth 5 \
+		-path '*/flatbuffers/include/flatbuffers/flatbuffers.h' \
+		-print -quit 2>/dev/null)
+	if [[ -n "${fb_include}" ]]; then
+		local fb_dir
+		fb_dir="$(dirname "${fb_include}")"
 		insinto /usr/include/flatbuffers
-		doins "${build_dir}/flatbuffers/include/flatbuffers"/*.h
+		doins "${fb_dir}"/*.h
 	fi
 
 	# Install the generated schema_generated.h if present.
-	local schema_gen="${build_dir}/schema_generated.h"
-	if [[ -f "${schema_gen}" ]]; then
+	local schema_gen
+	schema_gen=$(find "${build_dir}" -maxdepth 3 \
+		-name 'schema_generated.h' -print -quit 2>/dev/null)
+	if [[ -n "${schema_gen}" ]]; then
 		insinto /usr/include/tensorflow/lite/schema
 		doins "${schema_gen}"
 	fi
