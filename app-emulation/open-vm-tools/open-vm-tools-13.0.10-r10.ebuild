@@ -72,6 +72,7 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-12.4.5-Werror.patch
 	"${FILESDIR}"/${PN}-12.4.5-icu.patch
+	"${FILESDIR}"/${PN}-13.0.10-remove_glib_stubs.c.patch
 )
 
 pkg_setup() {
