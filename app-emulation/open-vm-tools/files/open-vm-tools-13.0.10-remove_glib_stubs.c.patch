@@ -1,4 +1,4 @@
---- a/libappmonitor/Makefile.am.orig	2026-04-08 10:44:40.783080395 +0300
+--- a/libappmonitor/Makefile.am	2026-04-08 10:44:40.783080395 +0300
 +++ a/libappmonitor/Makefile.am.orig	2026-04-08 10:44:49.827742334 +0300
 @@ -42,7 +42,6 @@ 
  libappmonitor_la_SOURCES += $(top_srcdir)/lib/stubs/stub-panic.c
@@ -8,7 +8,7 @@
  if HAVE_VSOCK
  libappmonitor_la_SOURCES += $(libappmonitor_rpcchanneldir)/vsockChannel.c
  libappmonitor_la_SOURCES += $(libappmonitor_rpcchanneldir)/simpleSocket.c
---- a/libguestlib/Makefile.am.orig	2026-04-08 13:40:16.510875436 +0300
+--- a/libguestlib/Makefile.am	2026-04-08 13:40:16.510875436 +0300
 +++ a/libguestlib/Makefile.am.orig	2026-04-08 13:40:38.187062087 +0300
 @@ -44,7 +44,6 @@ 
  libguestlib_la_SOURCES += vmGuestLib.c
